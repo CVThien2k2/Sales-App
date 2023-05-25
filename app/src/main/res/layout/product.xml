@@ -21,12 +21,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product"
+            android:textColor="#000"
             android:layout_gravity="center_horizontal"></TextView>
         <TextView
             android:id="@+id/giasanpham"
-            android:text="Gía: "
+            android:text="Giá: 220.000 đ  "
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FF0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:id="@+id/luotban"
+            android:text="Đã bán: 3000 lượt"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
+            android:textColor="#000"
             android:layout_height="wrap_content"></TextView>
     </LinearLayout>
 

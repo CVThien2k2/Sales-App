@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import com.example.appbanhang.fragment.ListProductFragment;
 import com.example.appbanhang.fragment.MeFragment;
 import com.example.appbanhang.fragment.NotifyFragment;
 import com.example.appbanhang.R;
@@ -41,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.search:
                     {
                         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new SearchFragment()).commit();
+                        return true;
                     }
                     case R.id.notify:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new NotifyFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new ListProductFragment()).commit();
                         return true;
                     case R.id.me:
                         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new MeFragment()).commit();

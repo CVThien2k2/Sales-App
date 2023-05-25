@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.ProductViewHolder> {
     private List<Product> products;
 
     public void setData(List<Product> products){
@@ -28,7 +28,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product2,parent,false);
         return new ProductViewHolder(view);
     }
 
@@ -40,8 +40,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
         Picasso.get().load(product.getHinh_anh()).into(holder.imageView);
         holder.textView.setText(product.getTen_san_pham());
-        holder.textviewGia.setText("Giá: "+product.getGia_san_pham()+ " đ");
-        holder.textviewLuotban.setText("Lượt bán: "+product.getDa_ban()+" lượt");
+        holder.textviewGia.setText("Giá: "+product.getGia_san_pham()+ " đ - Lượt bán: "+product.getDa_ban()+" lượt");
+
     }
 
     @Override
@@ -54,13 +54,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         private ImageView imageView;
         private TextView textView;
         private TextView textviewGia;
-        private TextView textviewLuotban;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.anhsanpham);
-            textView = itemView.findViewById(R.id.tensanpham);
-            textviewGia = itemView.findViewById(R.id.giasanpham);
-            textviewLuotban = itemView.findViewById(R.id.luotban);
+            imageView = itemView.findViewById(R.id.anhsanpham2);
+            textView = itemView.findViewById(R.id.tensanpham2);
+            textviewGia = itemView.findViewById(R.id.giasanpham2);
         }
     }
 

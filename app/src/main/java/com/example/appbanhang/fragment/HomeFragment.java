@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -73,6 +74,7 @@ public class HomeFragment extends Fragment {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     API api;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,8 +90,6 @@ public class HomeFragment extends Fragment {
             recyclerView2 = view.findViewById(R.id.recyclerview2);
             //cài view flipper
             ActionViewFlipper();
-
-
             //cài recyclerview
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), recyclerView1.HORIZONTAL, false);
             LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this.getContext(), recyclerView2.HORIZONTAL, false);
@@ -213,7 +213,7 @@ public void setOnClick(){
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // Xử lý khi người dùng chọn một item
             String selectedItem = (String) parent.getItemAtPosition(position);
-            Toast.makeText((getActivity().getApplicationContext()), selectedItem, Toast.LENGTH_LONG).show();
+
 
             // Thực hiện hành động mong muốn
         }

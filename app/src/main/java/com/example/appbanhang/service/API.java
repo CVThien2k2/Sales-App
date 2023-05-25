@@ -32,6 +32,8 @@ public interface API {
     Observable<List<Product>> getTopSellingProducts();
     @GET("server/getSaleProducts.php")
     Observable<List<Product>> getSaleProducts();
+    @GET("server/getTopSellingProducts.php")
+    Observable<List<Product>> getSearchProduct();
 
 
 }
