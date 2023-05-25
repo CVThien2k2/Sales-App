@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "246275718399",
+    "firebase_url": "https://data-49f0f-default-rtdb.firebaseio.com",
+    "project_id": "data-49f0f",
+    "storage_bucket": "data-49f0f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246275718399:android:8d191913ab83df01d720ca",
+        "android_client_info": {
+          "package_name": "com.example.appbanhang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246275718399-vdhcp6vnm6ba99545cc5dl8cfp7uguav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEmQxj-l-J-qY_A9UVboSCKFBG5kij3SA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246275718399-vdhcp6vnm6ba99545cc5dl8cfp7uguav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
