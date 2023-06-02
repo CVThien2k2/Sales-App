@@ -1,31 +1,38 @@
 package com.example.appbanhang.model;
 
 public class ProductCategory {
-    private int idDanhMuc;
-    private String tenDanhMuc;
+    private int id_danh_muc;
+    private String ten_danh_muc;
 
-    public ProductCategory(int idDanhMuc, String tenDanhMuc) {
-        this.idDanhMuc = idDanhMuc;
-        this.tenDanhMuc = tenDanhMuc;
+    private String gioi_tinh;
+
+    public ProductCategory(int id_danh_muc, String ten_danh_muc, String gioi_tinh) {
+        this.id_danh_muc = id_danh_muc;
+        this.ten_danh_muc = ten_danh_muc;
+        this.gioi_tinh = gioi_tinh;
     }
 
-    // Các phương thức getter và setter cho các thuộc tính
-
-    public int getIdDanhMuc() {
-        return idDanhMuc;
+    public int getId_danh_muc() {
+        return id_danh_muc;
     }
 
-    public void setIdDanhMuc(int idDanhMuc) {
-        this.idDanhMuc = idDanhMuc;
+    public void setId_danh_muc(int id_danh_muc) {
+        this.id_danh_muc = id_danh_muc;
     }
 
-    public String getTenDanhMuc() {
-        return tenDanhMuc;
+    public String getTen_danh_muc() {
+        return ten_danh_muc;
     }
 
-    public void setTenDanhMuc(String tenDanhMuc) {
-        this.tenDanhMuc = tenDanhMuc;
+    public void setTen_danh_muc(String ten_danh_muc) {
+        this.ten_danh_muc = ten_danh_muc;
     }
 
+    public String getGioi_tinh() {
+        return gioi_tinh;
+    }
 
+    public void setGioi_tinh(String gioi_tinh) {
+        this.gioi_tinh = gioi_tinh;
+    }
 }

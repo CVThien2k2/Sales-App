@@ -1,51 +1,47 @@
 package com.example.appbanhang.model;
 
 public class ShoppingCart {
-    private int idGioHang;
-    private int idNguoiDung;
-    private int idSanPham;
-    private int soLuongSanPham;
+    private int id_gio_hang;
+    private int id_nguoi_dung;
+    private int id_san_pham;
+    private int so_luong_san_pham;
 
-    public ShoppingCart(int idGioHang, int idNguoiDung, int idSanPham, int soLuongSanPham) {
-        this.idGioHang = idGioHang;
-        this.idNguoiDung = idNguoiDung;
-        this.idSanPham = idSanPham;
-        this.soLuongSanPham = soLuongSanPham;
+    public ShoppingCart(int id_gio_hang, int id_nguoi_dung, int id_san_pham, int so_luong_san_pham) {
+        this.id_gio_hang = id_gio_hang;
+        this.id_nguoi_dung = id_nguoi_dung;
+        this.id_san_pham = id_san_pham;
+        this.so_luong_san_pham = so_luong_san_pham;
     }
 
-    // Các phương thức getter và setter cho các thuộc tính
-
-    public int getIdGioHang() {
-        return idGioHang;
+    public int getId_gio_hang() {
+        return id_gio_hang;
     }
 
-    public void setIdGioHang(int idGioHang) {
-        this.idGioHang = idGioHang;
+    public void setId_gio_hang(int id_gio_hang) {
+        this.id_gio_hang = id_gio_hang;
     }
 
-    public int getIdNguoiDung() {
-        return idNguoiDung;
+    public int getId_nguoi_dung() {
+        return id_nguoi_dung;
     }
 
-    public void setIdNguoiDung(int idNguoiDung) {
-        this.idNguoiDung = idNguoiDung;
+    public void setId_nguoi_dung(int id_nguoi_dung) {
+        this.id_nguoi_dung = id_nguoi_dung;
     }
 
-    public int getIdSanPham() {
-        return idSanPham;
+    public int getId_san_pham() {
+        return id_san_pham;
     }
 
-    public void setIdSanPham(int idSanPham) {
-        this.idSanPham = idSanPham;
+    public void setId_san_pham(int id_san_pham) {
+        this.id_san_pham = id_san_pham;
     }
 
-    public int getSoLuongSanPham() {
-        return soLuongSanPham;
+    public int getSo_luong_san_pham_san_pham() {
+        return so_luong_san_pham;
     }
 
-    public void setSoLuongSanPham(int soLuongSanPham) {
-        this.soLuongSanPham = soLuongSanPham;
+    public void setSo_luong_san_pham(int so_luon_san_pham) {
+        this.so_luong_san_pham = so_luon_san_pham;
     }
-
-
 }

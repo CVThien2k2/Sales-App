@@ -9,20 +9,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appbanhang.R;
 import com.example.appbanhang.model.Product;
+import com.example.appbanhang.model.ProductCategory;
+import com.example.appbanhang.service.OnItemClickListenerString;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 
 public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StringViewHolder> {
-    private List<String> str;
+    private List<ProductCategory> str;
+    private OnItemClickListenerString onItemClickListenerString;
 
-    public void setData(List<String> str){
+    public void setData(List<ProductCategory> str,OnItemClickListenerString onItemClickListenerString){
         this.str = str;
+        this.onItemClickListenerString = onItemClickListenerString;
         notifyDataSetChanged();
     }
     @NonNull
@@ -34,11 +39,17 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StringView
 
     @Override
     public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
-        String s = str.get(position);
+        ProductCategory s = str.get(position);
         if(s == null){
             return;
         }
-        holder.textview.setText(s);
+        holder.textview.setText(s.getTen_danh_muc());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListenerString.OnItemClickListenerString(s);
+            }
+        });
     }
 
     @Override
@@ -49,9 +60,11 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StringView
 
     public class StringViewHolder extends  RecyclerView.ViewHolder{
         private TextView textview;
+        private CardView cardView;
         public StringViewHolder(@NonNull View itemView) {
             super(itemView);
             textview = itemView.findViewById(R.id.namelist);
+            cardView = itemView.findViewById(R.id.ListMan);
         }
     }
 

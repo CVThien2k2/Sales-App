@@ -1,8 +1,8 @@
 package com.example.appbanhang.fragment;
 
 import static android.content.ContentValues.TAG;
-import static com.example.appbanhang.service.API.log;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -21,13 +19,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,21 +35,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.appbanhang.Adapter.ProductAdapter;
 import com.example.appbanhang.R;
+import com.example.appbanhang.activity.CartActivity;
+import com.example.appbanhang.activity.ProductdetailsActivity;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.service.API;
 import com.example.appbanhang.service.CheckConnection;
+import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     ViewFlipper viewFlipper;
@@ -74,6 +69,7 @@ public class HomeFragment extends Fragment {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     API api;
 
+    private ImageView imageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,6 +84,7 @@ public class HomeFragment extends Fragment {
             viewFlipper = view.findViewById(R.id.viewflipper);
             recyclerView1 = view.findViewById(R.id.recyclerview1);
             recyclerView2 = view.findViewById(R.id.recyclerview2);
+            imageView = view.findViewById(R.id.imageView);
             //cài view flipper
             ActionViewFlipper();
             //cài recyclerview
@@ -144,7 +141,18 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        productAdapter1.setData(topSellingProducts);
+                        productAdapter1.setData(topSellingProducts, new OnItemClickListenerProduct() {
+                            @Override
+                            public void onItemClickProduct(Product product) {
+                                Intent intent = new Intent(getActivity(), ProductdetailsActivity.class);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("product",product);
+
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
                         recyclerView1.setAdapter(productAdapter1);
                         recommend = new ArrayAdapter(getContext(), android.R.layout.simple_dropdown_item_1line,nameProducts);
                         autoCompleteTextView.setAdapter(recommend);
@@ -174,7 +182,20 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        productAdapter2.setData(saleProducts);
+                        productAdapter2.setData(saleProducts, new OnItemClickListenerProduct() {
+                            @Override
+                            public void onItemClickProduct(Product product) {
+                                Intent intent = new Intent(getActivity(), ProductdetailsActivity.class);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("product",product);
+
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+
+                            }
+                        });
                         recyclerView2.setAdapter(productAdapter2);
                     }
                 });
@@ -190,9 +211,9 @@ public class HomeFragment extends Fragment {
 
     private void ActionViewFlipper() {
         ArrayList<String> view = new ArrayList<>();
-        view.add("http://mauweb.monamedia.net/thegioididong/wp-content/uploads/2017/12/banner-Le-hoi-phu-kien-800-300.png");
-        view.add("http://mauweb.monamedia.net/thegioididong/wp-content/uploads/2017/12/banner-HC-Tra-Gop-800-300.png");
-        view.add("http://mauweb.monamedia.net/thegioididong/wp-content/uploads/2017/12/banner-big-ky-nguyen-800-300.jpg");
+        view.add("https://cdn.quanlychitieu.com/public/media/news/media/posts/9-top-quan-ao-sinh-vien/quan-ao.jpg");
+        view.add("https://toplistphanthiet.com/wp-content/uploads/2022/11/word-image-703-1.png");
+        view.add("https://promacprinting.com/wp-content/uploads/2021/03/chuong-trinh-khuyen-mai-quan-ao-6.jpg");
         for (int i = 0; i < view.size(); i++) {
             ImageView imageView = new ImageView(requireContext());
             Glide.with(requireContext()).load(view.get(i)).into(imageView);
@@ -207,6 +228,21 @@ public class HomeFragment extends Fragment {
         viewFlipper.setOutAnimation(slide_out);
     }
 public void setOnClick(){
+        //Click gio hang
+    imageView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getActivity(), CartActivity.class);
+
+//                                Bundle bundle = new Bundle();
+//                                bundle.putSerializable("product",product);
+
+//                                intent.putExtras(bundle);
+                                startActivity(intent);
+        }
+    });
+
+
     // Đăng ký sự kiện khi người dùng chọn một item từ danh sách
     autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override

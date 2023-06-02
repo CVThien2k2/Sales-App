@@ -3,17 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ListProductFragment"
+    android:id="@+id/ListProduct"
     android:orientation="vertical">
-    <EditText
-        android:id="@+id/namesearch"
+    
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/ToolBarProduct"
+        android:background="#813F3F"
+        app:title="Quần Nam"
+        app:titleTextColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="Quần"
-        android:layout_marginHorizontal="10dp"
-        android:drawableRight="@drawable/baseline_search_black_24"
-        android:drawableLeft="@drawable/back"></EditText>
+        android:layout_height="?attr/actionBarSize"></androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="15dp"
