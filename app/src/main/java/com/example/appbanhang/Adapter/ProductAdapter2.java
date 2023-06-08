@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appbanhang.R;
 import com.example.appbanhang.model.Product;
+import com.example.appbanhang.service.OnItemClickListenerProduct;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,9 +22,10 @@ import java.util.List;
 
 public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.ProductViewHolder> {
     private List<Product> products;
-
-    public void setData(List<Product> products){
+    private OnItemClickListenerProduct itemClickListener;
+    public void setData(List<Product> products, OnItemClickListenerProduct itemClickListener){
         this.products = products;
+        this.itemClickListener = itemClickListener;
         notifyDataSetChanged();
     }
     @NonNull
@@ -41,7 +44,12 @@ public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.Produc
         Picasso.get().load(product.getHinh_anh()).into(holder.imageView);
         holder.textView.setText(product.getTen_san_pham());
         holder.textviewGia.setText("Giá: "+product.getGia_san_pham()+ " đ - Lượt bán: "+product.getDa_ban()+" lượt");
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.onItemClickProduct(product);
+            }
+        });
     }
 
     @Override
@@ -54,11 +62,13 @@ public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.Produc
         private ImageView imageView;
         private TextView textView;
         private TextView textviewGia;
+        private CardView cardView;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.anhsanpham2);
             textView = itemView.findViewById(R.id.tensanpham2);
             textviewGia = itemView.findViewById(R.id.giasanpham2);
+            cardView = itemView.findViewById(R.id.cardview2);
         }
     }
 

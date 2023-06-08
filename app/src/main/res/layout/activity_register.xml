@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.LoginActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarregister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B56868"
+        android:gravity="center"
+        app:title="Đăng ký"
+
+        ></androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/usernameregister"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/user"
+            android:ems="10"
+            android:hint="Vui lòng nhập tài khoản"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"></TextView>
+
+        <EditText
+            android:id="@+id/passregister"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/lock"
+            android:ems="10"
+            android:hint="Vui lòng nhập mật khẩu"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"></TextView>
+
+        <EditText
+            android:id="@+id/passregister2"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/lock"
+            android:ems="10"
+            android:hint="Vui lòng nhập lại mật khẩu"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"></TextView>
+
+        <EditText
+            android:id="@+id/hoten"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/hoten"
+            android:ems="10"
+            android:hint="Vui lòng nhập họ và tên"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"></TextView>
+
+        <EditText
+            android:id="@+id/emailregister"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/gmail"
+            android:ems="10"
+            android:hint="Vui lòng nhập email đăng ký"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"></TextView>
+
+        <EditText
+            android:id="@+id/sodienthoai"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/phone"
+            android:ems="10"
+            android:hint="Vui lòng nhập số điện thoại"
+            android:inputType="phone"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="gone"
+
+            android:layout_gravity="center_horizontal"></TextView>
+
+        <Button
+            android:id="@+id/buttonregister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:text="Đăng ký"
+            android:textStyle="italic"
+            app:icon="@drawable/login"
+            app:iconTint="#A19C9C" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Nếu bạn đã có tài khoản, hãy " />
+
+        <TextView
+            android:id="@+id/register3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="đăng nhập."
+            android:textStyle="bold"
+            android:textColor="#EA0404"
+            android:layout_gravity="center_horizontal"
+             />
+    </LinearLayout>
+
+
+</LinearLayout>

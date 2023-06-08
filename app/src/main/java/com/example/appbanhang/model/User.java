@@ -1,58 +1,58 @@
 package com.example.appbanhang.model;
 
 public class User {
-    private int idNguoiDung;
-    private String tenDangNhap;
-    private String matKhau;
-    private String hoTen;
+
+    private int id_nguoi_dung;
+    private String ten_dang_nhap;
+    private String mat_khau;
+    private String ho_ten;
     private String email;
-    private String diaChi;
-    private String soDienThoai;
-    private UserType loaiNguoiDung;
-
-    public User(int idNguoiDung, String tenDangNhap, String matKhau, String hoTen, String email, String diaChi, String soDienThoai, UserType loaiNguoiDung) {
-        this.idNguoiDung = idNguoiDung;
-        this.tenDangNhap = tenDangNhap;
-        this.matKhau = matKhau;
-        this.hoTen = hoTen;
+    private String dia_chi;
+    private String so_dien_thoai;
+    private UserType loai_nguoi_dung;
+    public User(){
+    }
+    public User(int id_nguoi_dung, String ten_dang_nhap, String mat_khau, String ho_ten, String email, String dia_chi, String so_dien_thoai, UserType loai_nguoi_dung) {
+        this.id_nguoi_dung = id_nguoi_dung;
+        this.ten_dang_nhap = ten_dang_nhap;
+        this.mat_khau = mat_khau;
+        this.ho_ten = ho_ten;
         this.email = email;
-        this.diaChi = diaChi;
-        this.soDienThoai = soDienThoai;
-        this.loaiNguoiDung = loaiNguoiDung;
+        this.dia_chi = dia_chi;
+        this.so_dien_thoai = so_dien_thoai;
+        this.loai_nguoi_dung = loai_nguoi_dung;
     }
 
-    // Các phương thức getter và setter cho các thuộc tính
-
-    public int getIdNguoiDung() {
-        return idNguoiDung;
+    public int getId_nguoi_dung() {
+        return id_nguoi_dung;
     }
 
-    public void setIdNguoiDung(int idNguoiDung) {
-        this.idNguoiDung = idNguoiDung;
+    public void setId_nguoi_dung(int id_nguoi_dung) {
+        this.id_nguoi_dung = id_nguoi_dung;
     }
 
-    public String getTenDangNhap() {
-        return tenDangNhap;
+    public String getTen_dang_nhap() {
+        return ten_dang_nhap;
     }
 
-    public void setTenDangNhap(String tenDangNhap) {
-        this.tenDangNhap = tenDangNhap;
+    public void setTen_dang_nhap(String ten_dang_nhap) {
+        this.ten_dang_nhap = ten_dang_nhap;
     }
 
-    public String getMatKhau() {
-        return matKhau;
+    public String getMat_khau() {
+        return mat_khau;
     }
 
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+    public void setMat_khau(String mat_khau) {
+        this.mat_khau = mat_khau;
     }
 
-    public String getHoTen() {
-        return hoTen;
+    public String getHo_ten() {
+        return ho_ten;
     }
 
-    public void setHoTen(String hoTen) {
-        this.hoTen = hoTen;
+    public void setHo_ten(String ho_ten) {
+        this.ho_ten = ho_ten;
     }
 
     public String getEmail() {
@@ -63,28 +63,28 @@ public class User {
         this.email = email;
     }
 
-    public String getDiaChi() {
-        return diaChi;
+    public String getDia_chi() {
+        return dia_chi;
     }
 
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
+    public void setDia_chi(String dia_chi) {
+        this.dia_chi = dia_chi;
     }
 
-    public String getSoDienThoai() {
-        return soDienThoai;
+    public String getSo_dien_thoai() {
+        return so_dien_thoai;
     }
 
-    public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
+    public void setSo_dien_thoai(String so_dien_thoai) {
+        this.so_dien_thoai = so_dien_thoai;
     }
 
-    public UserType getLoaiNguoiDung() {
-        return loaiNguoiDung;
+    public UserType getLoai_nguoi_dung() {
+        return loai_nguoi_dung;
     }
 
-    public void setLoaiNguoiDung(UserType loaiNguoiDung) {
-        this.loaiNguoiDung = loaiNguoiDung;
+    public void setLoai_nguoi_dung(UserType loai_nguoi_dung) {
+        this.loai_nguoi_dung = loai_nguoi_dung;
     }
 
     // Enum để định nghĩa các giá trị cho loại người dùng

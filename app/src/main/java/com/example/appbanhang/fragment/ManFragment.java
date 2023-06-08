@@ -86,7 +86,7 @@ public class ManFragment extends Fragment {
                             public void OnItemClickListenerString(ProductCategory productCategory) {
                                 ListProductFragment fragment = new ListProductFragment();
                                 Bundle bundle = new Bundle();
-                                bundle.putString("ten", productCategory.getTen_danh_muc());
+                                bundle.putString("danhmuc", productCategory.getTen_danh_muc());
                                 bundle.putString("gioitinh", productCategory.getGioi_tinh());; // Gán dữ liệu vào bundle
                                 fragment.setArguments(bundle); // Truyền bundle cho fragment
                                 getActivity().getSupportFragmentManager()

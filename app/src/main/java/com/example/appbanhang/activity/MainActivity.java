@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                     case R.id.notify:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new ListProductFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new NotifyFragment()).commit();
                         return true;
                     case R.id.me:
                         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new MeFragment()).commit();

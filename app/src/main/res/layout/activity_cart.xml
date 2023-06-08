@@ -29,6 +29,20 @@
             android:layout_height="0dp"
             android:layout_marginBottom="15dp"
             android:layout_weight="8.5"></androidx.recyclerview.widget.RecyclerView>
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/emptyTextView3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="15dp"
+            android:text="Hiện chưa có vật phẩm nào trong giỏ hàng."
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_weight="8.5"
+            android:visibility="gone"
+            ></TextView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -37,6 +51,7 @@
             android:orientation="horizontal"
             android:background="#988D8D">
             <CheckBox
+                android:id="@+id/checkBoxall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -51,9 +66,10 @@
                 android:weightSum="10"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tongtien"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tổng tiền : 169.000 đ"
+                    android:text="Tổng tiền : 750.000 đ"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="20dp"

@@ -3,18 +3,24 @@ package com.example.appbanhang.service;
 
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ProductCategory;
+import com.example.appbanhang.model.ResponseData;
+import com.example.appbanhang.model.ShoppingCart;
+import com.example.appbanhang.model.User;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+
 public interface API {
 
     HttpLoggingInterceptor log = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -25,7 +31,7 @@ public interface API {
             .retryOnConnectionFailure(true)
             .addInterceptor(log);
 //    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH-mm-ss").create();
-    API api = new Retrofit.Builder().baseUrl("http://192.168.3.105/")
+    API api = new Retrofit.Builder().baseUrl("http://192.168.3.104/")
             .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
              .client(okBuilder.build())
@@ -36,30 +42,55 @@ public interface API {
     Observable<List<Product>> getTopSellingProducts();
     @GET("server/getSaleProducts.php")
     Observable<List<Product>> getSaleProducts();
-
     //Nam
     @GET("server/getDanhmucnam.php")
     Observable<List<ProductCategory>> getDanhmucnam();
-    @GET("server/getQuannam.php")
-    Observable<List<Product>> getQuannam();
     @GET("server/getAonam.php")
     Observable<List<Product>> getAonam();
-    @GET("server/getGiaynam.php")
-    Observable<List<Product>> getGiaynam();
-    @GET("server/getDepnam.php")
-    Observable<List<Product>> getDepnam();
-    //Nữ
     @GET("server/getDanhmucnu.php")
     Observable<List<ProductCategory>> getDanhmucnu();
-    @GET("server/getQuannu.php")
-    Observable<List<Product>> getQuannu();
-    @GET("server/getAonu.php")
-    Observable<List<Product>> getAonu();
-    @GET("server/getGiaynu.php")
-    Observable<List<Product>> getGiaynu();
-    @GET("server/getDepnu.php")
-    Observable<List<Product>> getDepnu();
 
-    @GET("server/getVaynu.php")
-    Observable<List<Product>> getVaynu();
+    // POST
+    @POST ("server/getProduct.php")
+    @FormUrlEncoded
+    Observable<List<Product>> getProduct(
+            @Field("danhmuc") String search,
+            @Field("gioitinh") String gioitinh
+    );
+    @POST ("server/getSearch.php")
+    @FormUrlEncoded
+    Observable<List<Product>> getSearch(
+            @Field("name") String search
+    );
+
+    @POST ("server/getUser.php")
+    @FormUrlEncoded
+    Observable<List<User>> getUser(
+            @Field("username") String username,
+            @Field("password") String password
+    );
+
+    @POST ("server/getCart.php")
+    @FormUrlEncoded
+    Observable<List<ShoppingCart>> getCart(
+            @Field("id") int id
+    );
+    @POST ("server/check.php")
+    @FormUrlEncoded
+    Observable<ResponseData> check(
+            @Field("username") String username,
+            @Field("email") String email,
+            @Field("phone") String phone
+    );
+    @FormUrlEncoded
+    @POST("server/Register.php")
+    Observable<ResponseData> Register(
+            @Field("ten_dang_nhap") String tenDangNhap,
+            @Field("mat_khau") String matKhau,
+            @Field("ho_ten") String hoTen,
+            @Field("email") String email,
+            @Field("dia_chi") String diaChi,
+            @Field("so_dien_thoai") String soDienThoai
+    );
+
 }

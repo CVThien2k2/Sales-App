@@ -37,9 +37,11 @@ import com.example.appbanhang.Adapter.ProductAdapter;
 import com.example.appbanhang.R;
 import com.example.appbanhang.activity.CartActivity;
 import com.example.appbanhang.activity.ProductdetailsActivity;
+import com.example.appbanhang.activity.SearchActivity;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.service.API;
 import com.example.appbanhang.service.CheckConnection;
+import com.example.appbanhang.service.CheckLogin;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 
@@ -127,7 +129,7 @@ public class HomeFragment extends Fragment {
                     public void onNext(@NonNull List<Product> products) {
                         topSellingProducts = products;
                         String name;
-                        for(int i=0; i< topSellingProducts.size();i++){
+                        for (int i = 0; i < topSellingProducts.size(); i++) {
                             name = topSellingProducts.get(i).getTen_san_pham();
                             nameProducts.add(name);
                         }
@@ -147,19 +149,20 @@ public class HomeFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), ProductdetailsActivity.class);
 
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("product",product);
+                                bundle.putSerializable("product", product);
 
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             }
                         });
                         recyclerView1.setAdapter(productAdapter1);
-                        recommend = new ArrayAdapter(getContext(), android.R.layout.simple_dropdown_item_1line,nameProducts);
+                        recommend = new ArrayAdapter(getContext(), android.R.layout.simple_dropdown_item_1line, nameProducts);
                         autoCompleteTextView.setAdapter(recommend);
                         autoCompleteTextView.setThreshold(1);
                     }
                 });
     }
+
     private void getSaleProducts() {
         API.api.getSaleProducts().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -188,7 +191,7 @@ public class HomeFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), ProductdetailsActivity.class);
 
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("product",product);
+                                bundle.putSerializable("product", product);
 
                                 intent.putExtras(bundle);
                                 startActivity(intent);
@@ -227,50 +230,62 @@ public class HomeFragment extends Fragment {
         viewFlipper.setInAnimation(slide_in);
         viewFlipper.setOutAnimation(slide_out);
     }
-public void setOnClick(){
+
+    public void setOnClick() {
         //Click gio hang
-    imageView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(getActivity(), CartActivity.class);
-
-//                                Bundle bundle = new Bundle();
-//                                bundle.putSerializable("product",product);
-
-//                                intent.putExtras(bundle);
-                                startActivity(intent);
-        }
-    });
-
-
-    // Đăng ký sự kiện khi người dùng chọn một item từ danh sách
-    autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // Xử lý khi người dùng chọn một item
-            String selectedItem = (String) parent.getItemAtPosition(position);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckLogin.Login == false) {
+                    com.example.appbanhang.fragment.CheckLogin fragment = new com.example.appbanhang.fragment.CheckLogin();
+                    Bundle bundle = new Bundle();
+                    fragment.setArguments(bundle); // Truyền bundle cho fragment
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.framelayout, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                } else {
+                    Intent intent = new Intent(getActivity(), CartActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
 
-            // Thực hiện hành động mong muốn
-        }
-    });
+        // Đăng ký sự kiện khi người dùng chọn một item từ danh sách
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Xử lý khi người dùng chọn một item
+                String selectedItem = (String) parent.getItemAtPosition(position);
+
+
+                // Thực hiện hành động mong muốn
+            }
+        });
 
 // Đăng ký sự kiện khi người dùng ấn enter trên bàn phím
-    autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // Xử lý khi người dùng ấn Enter
-                String searchText = autoCompleteTextView.getText().toString();
-                Toast.makeText((getActivity().getApplicationContext()), searchText, Toast.LENGTH_LONG).show();
-                // Thực hiện hành động mong muốn
-                return true;
-            }
-            return false; // Trả về false để yêu cầu hệ thống xử lý sự kiện
-        }
-    });
+        autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Xử lý khi người dùng ấn Enter
+                    String searchText = autoCompleteTextView.getText().toString();
+                    Intent intent = new Intent(getActivity(), SearchActivity.class);
 
-}
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", searchText);
+
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    return true;
+                }
+                return false; // Trả về false để yêu cầu hệ thống xử lý sự kiện
+            }
+        });
+
+    }
 
 
 }

@@ -17,13 +17,14 @@ import com.example.appbanhang.model.Product;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> products;
     private OnItemClickListenerProduct itemClickListener;
-
+    DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
     public void setData(List<Product> products, OnItemClickListenerProduct itemClickListener){
         this.products = products;
         this.itemClickListener =itemClickListener;
@@ -44,7 +45,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
         Picasso.get().load(product.getHinh_anh()).into(holder.imageView);
         holder.textView.setText(product.getTen_san_pham());
-        holder.textviewGia.setText("Giá: "+product.getGia_san_pham()+ " đ");
+        holder.textviewGia.setText("Giá: "+decimalFormat.format(product.getGia_san_pham())+ " đ");
         holder.textviewLuotban.setText("Lượt bán: "+product.getDa_ban()+" lượt");
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

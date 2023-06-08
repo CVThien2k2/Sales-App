@@ -107,7 +107,7 @@
                 android:id="@+id/giachitiet"
                 android:layout_width="0dp"
                 android:textColor="@color/black"
-                android:layout_weight="3"
+                android:layout_weight="6"
 
                 android:layout_height="wrap_content"
                 android:text="300.000 đ"

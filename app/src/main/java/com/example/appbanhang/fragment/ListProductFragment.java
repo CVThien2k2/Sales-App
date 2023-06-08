@@ -2,6 +2,7 @@ package com.example.appbanhang.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,12 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appbanhang.Adapter.ProductAdapter2;
 import com.example.appbanhang.R;
+import com.example.appbanhang.activity.ProductdetailsActivity;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,7 @@ public class ListProductFragment extends Fragment {
     private Disposable disposable;
 
     private Toolbar toolbar;
+    TextView empty;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,188 +57,15 @@ public class ListProductFragment extends Fragment {
         init();
         ActionBar();
         if (bundle != null) {
-            String ten = bundle.getString("ten");
+            String ten = bundle.getString("danhmuc");
             String gioitinh = bundle.getString("gioitinh");
-            toolbar.setTitle(ten + " "+gioitinh);
-            if (gioitinh.equals("Nam")) {
-                switch (ten) {
-                    case "Quần":
-
-                        getQuannam();
-                        break;
-                    case "Áo":
-                        getAonam();
-                        break;
-                    case "Giày":
-                        getGiaynam();
-                        break;
-                    case "Dép":
-                        getDepnam();
-                        break;
-
-                }
-            } else {
-                switch (ten) {
-                    case "Quần":
-                        getQuannu();
-                        break;
-                    case "Áo":
-                        getAonu();
-                        break;
-                    case "Giày":
-                        getGiaynu();
-                        break;
-                    case "Dép":
-                        getDepnu();
-                        break;
-                    case "Váy":
-                        getVaynu();
-                        break;
-
-                }
-            }
+            toolbar.setTitle(ten + " " + gioitinh);
+            getProduct(ten, gioitinh);
         }
         return view;
     }
 
-    private void getDepnu() {
-        API.api.getDepnu().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
 
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
-
-    private void getGiaynu() {
-        API.api.getGiaynu().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
-
-    private void getAonu() {
-        API.api.getAonu().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
-
-    private void getQuannu() {
-        API.api.getQuannu().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
-    private void getVaynu() {
-        API.api.getVaynu().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
     public void init() {
         recyclerView = view.findViewById(R.id.recyclerview3);
         toolbar = view.findViewById(R.id.ToolBarProduct);
@@ -241,6 +73,7 @@ public class ListProductFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         productAdapter2 = new ProductAdapter2();
         products1 = new ArrayList<>();
+        empty = view.findViewById(R.id.emptyTextView);
 
     }
 
@@ -250,7 +83,7 @@ public class ListProductFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true); // Hiển thị nút trở về
-            actionBar.setHomeAsUpIndicator(R.drawable.back); // Thay thế "R.drawable.ic_back_arrow" bằng icon của bạn
+            actionBar.setHomeAsUpIndicator(R.drawable.back3); // Thay thế "R.drawable.ic_back_arrow" bằng icon của bạn
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,8 +93,8 @@ public class ListProductFragment extends Fragment {
         });
     }
 
-    private void getQuannam() {
-        API.api.getQuannam().subscribeOn(Schedulers.io())
+    private void getProduct(String loai, String gioitinh) {
+        API.api.getProduct(loai, gioitinh).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Product>>() {
                     @Override
@@ -282,93 +115,37 @@ public class ListProductFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        productAdapter2.setData(products1);
+                        if (products1.isEmpty()) {
+                            recyclerView.setVisibility(View.GONE);
+                            empty.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            recyclerView.setVisibility(View.VISIBLE);
+                            empty.setVisibility(View.GONE);
+                        }
+                        productAdapter2.setData(products1, new OnItemClickListenerProduct() {
+                            @Override
+                            public void onItemClickProduct(Product product) {
+                                Intent intent = new Intent(getActivity(), ProductdetailsActivity.class);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("product", product);
+
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
                         recyclerView.setAdapter(productAdapter2);
                     }
                 });
     }
 
-    private void getAonam() {
-        API.api.getAonam().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (disposable != null) {
+            disposable.dispose();
+        }
     }
 
-    private void getGiaynam() {
-        API.api.getGiaynam().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
-
-    private void getDepnam() {
-        API.api.getDepnam().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Product>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<Product> products) {
-                        products1 = products;
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        productAdapter2.setData(products1);
-                        recyclerView.setAdapter(productAdapter2);
-                    }
-                });
-    }
 }

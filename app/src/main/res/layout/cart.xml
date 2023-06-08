@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="8dp"
-    android:id="@+id/cart">
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:background="#BCBABA"
         android:orientation="horizontal"
         android:weightSum="10">
 
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2">
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imagecart"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="4"
             android:scaleType="centerCrop"
             android:src="@color/design_default_color_on_secondary"></ImageView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="5"
             android:orientation="vertical">
 
             <TextView
@@ -39,8 +55,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Giá:  250.000 đ - Lượt bán: 3000 lượt. "
+                android:layout_marginTop="5dp"
+                android:text="Tổng giá:  250.000 đ  "
+                android:textColor="#F40000"
+                android:textSize="13dp"></TextView>
+            <TextView
+                android:id="@+id/luotban"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lượt bán: 3000 lượt"
+                android:layout_gravity="center_horizontal"
                 android:textColor="#F40000"
                 android:textSize="13dp"></TextView>
 
@@ -63,18 +87,17 @@
                 android:orientation="horizontal"
                 android:weightSum="10">
 
-                <Button
+                <ImageButton
                     android:id="@+id/giam"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
-                    android:layout_gravity=""
-
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_weight="1"
                     android:focusable="false"
-                    android:text="-"
-                    android:textSize="30dp"></Button>
+                    android:src="@drawable/minus"
+
+                    android:textSize="30dp"></ImageButton>
 
                 <TextView
                     android:id="@+id/soluong"
@@ -83,7 +106,7 @@
                     android:text="1"
                     android:textSize="30dp"></TextView>
 
-                <Button
+                <ImageButton
                     android:id="@+id/tang"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
@@ -91,19 +114,13 @@
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
                     android:focusable="false"
-                    android:text="+"
-                    android:textSize="30dp"></Button>
+                    android:src="@drawable/add"
+                    android:textSize="30dp"></ImageButton>
 
-                <CheckBox
-                    android:id="@+id/checkBox"
-                    android:layout_width="13dp"
-                    android:layout_height="68dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="1" />
 
 
             </LinearLayout>
-
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
