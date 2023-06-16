@@ -1,12 +1,26 @@
 package com.example.appbanhang.model;
 
 public class Parameter {
+    private int id_thong_so;
     private int id_san_pham;
     private int so_luong;
     private int con_lai;
     private String kich_thuoc;
 
-    public Parameter(int id_san_pham, int so_luong, int con_lai, String kich_thuoc) {
+
+    public int getId_thong_so() {
+        return id_thong_so;
+    }
+
+    public void setId_thong_so(int id_thong_so) {
+        this.id_thong_so = id_thong_so;
+    }
+    public Parameter(){
+
+    };
+
+    public Parameter(int id_thong_so, int id_san_pham, int so_luong, int con_lai, String kich_thuoc) {
+        this.id_thong_so = id_thong_so;
         this.id_san_pham = id_san_pham;
         this.so_luong = so_luong;
         this.con_lai = con_lai;

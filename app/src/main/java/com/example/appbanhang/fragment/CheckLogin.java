@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,9 @@ public class CheckLogin extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_check_login, container, false);
-
         init();
         setOnClick();
-
+        ActionBar();
         return view;
 
     }
@@ -44,6 +44,12 @@ public class CheckLogin extends Fragment {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true); // Hiển thị nút trở về
             actionBar.setHomeAsUpIndicator(R.drawable.back); // Thay thế "R.drawable.ic_back_arrow" bằng icon của bạn
+        }
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            // Lấy giá trị chuỗi từ Bundle
+            String myString = bundle.getString("myString");
+            toolbar.setTitle(myString);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

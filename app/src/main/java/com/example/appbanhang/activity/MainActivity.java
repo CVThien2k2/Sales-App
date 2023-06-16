@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import com.example.appbanhang.fragment.CheckLogin;
 import com.example.appbanhang.fragment.ListProductFragment;
 import com.example.appbanhang.fragment.MeFragment;
 import com.example.appbanhang.fragment.NotifyFragment;
@@ -26,29 +28,46 @@ import java.sql.SQLException;
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ViewFlipper viewFlipper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new HomeFragment()).commit();
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new HomeFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new HomeFragment()).commit();
                         return true;
-                    case R.id.search:
-                    {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new SearchFragment()).commit();
+                    case R.id.search: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new SearchFragment()).commit();
                         return true;
                     }
                     case R.id.notify:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new NotifyFragment()).commit();
+                        if (com.example.appbanhang.service.CheckLogin.Login == false) {
+                            CheckLogin fragment = new CheckLogin();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("myString", "Thông Báo");
+                            fragment.setArguments(bundle);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+                        } else {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new NotifyFragment()).commit();
+                        }
                         return true;
+
                     case R.id.me:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,new MeFragment()).commit();
+                        if (com.example.appbanhang.service.CheckLogin.Login == false) {
+                            CheckLogin fragment = new CheckLogin();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("myString", "Profile");
+                            fragment.setArguments(bundle);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+                        } else {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new MeFragment()).commit();
+                        }
                         return true;
                 }
 

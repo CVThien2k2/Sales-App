@@ -40,14 +40,15 @@
 
             <ImageView
                 android:id="@+id/imgv_editname"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="50dp"
+                android:layout_height="33dp"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_person_pin_24"
+                android:src="@drawable/edit"
                 app:tint="@color/white" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/thongtin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

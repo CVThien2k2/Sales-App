@@ -1,11 +1,13 @@
 package com.example.appbanhang.service;
 
 
+import com.example.appbanhang.model.Parameter;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ProductCategory;
 import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.ShoppingCart;
 import com.example.appbanhang.model.User;
+import com.example.appbanhang.model.item_cart;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +33,7 @@ public interface API {
             .retryOnConnectionFailure(true)
             .addInterceptor(log);
 //    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH-mm-ss").create();
-    API api = new Retrofit.Builder().baseUrl("http://192.168.3.104/")
+    API api = new Retrofit.Builder().baseUrl("http://192.168.3.101/")
             .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
              .client(okBuilder.build())
@@ -70,11 +72,7 @@ public interface API {
             @Field("password") String password
     );
 
-    @POST ("server/getCart.php")
-    @FormUrlEncoded
-    Observable<List<ShoppingCart>> getCart(
-            @Field("id") int id
-    );
+
     @POST ("server/check.php")
     @FormUrlEncoded
     Observable<ResponseData> check(
@@ -93,4 +91,38 @@ public interface API {
             @Field("so_dien_thoai") String soDienThoai
     );
 
+    //Gio hang
+    @POST ("server/getItemCart.php")
+    @FormUrlEncoded
+    Observable<List<item_cart>> getitemCart(
+            @Field("id") int id
+    );
+
+    @POST ("server/setItemCart.php")
+    @FormUrlEncoded
+    Observable<ResponseData> setItemCart(
+            @Field("id") int id,
+            @Field("count") int count,
+            @Field("st") int st
+
+    );
+
+    //
+    @POST ("server/getUser1.php")
+    @FormUrlEncoded
+    Observable<User> getUser(
+            @Field("id") int id
+    );
+
+    //Thay doi thong tin
+    @POST ("server/setInfo.php")
+    @FormUrlEncoded
+    Observable<ResponseData> setInfo(
+            @Field("id") int id,
+            @Field("name") String name,
+            @Field("email") String email,
+            @Field("phone") String phone,
+            @Field("address") String address
+
+    );
 }

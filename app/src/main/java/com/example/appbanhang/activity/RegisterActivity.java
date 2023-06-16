@@ -187,70 +187,45 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }, 5000);
                     }
-                }
-                else
-                if (isValidCredentials(editText1.getText().toString().trim()) && isValidCredentials(editText2.getText().toString().trim()) && isValidCredentials(editText3.getText().toString().trim()) && isValidCredentials(editText4.getText().toString().trim()) && isValidCredentials(editText5.getText().toString().trim()) && isValidCredentials(editText6.getText().toString().trim()))
-                    API.api.check(editText1.getText().toString().trim(), editText5.getText().toString().trim(), editText6.getText().toString().trim()).subscribeOn(Schedulers.io())
+                }  if (isValidCredentials(editText1.getText().toString().trim()) && isValidCredentials(editText2.getText().toString().trim()) && isValidCredentials(editText3.getText().toString().trim()) && isValidCredentials(editText4.getText().toString().trim()) && isValidCredentials(editText5.getText().toString().trim()) && isValidCredentials(editText6.getText().toString().trim()))
+                    API.api.Register(editText1.getText().toString().trim(),
+                                    editText2.getText().toString().trim(),
+                                    editText3.getText().toString().trim(),
+                                    editText4.getText().toString().trim(),
+                                    editText5.getText().toString().trim(),
+                                    editText6.getText().toString().trim())
+                            .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<ResponseData>() {
                                 @Override
                                 public void onSubscribe(@NonNull Disposable d) {
-
+                                    // Xử lý khi đăng ký
                                 }
 
                                 @Override
-                                public void onNext(@NonNull ResponseData responseData) {
-                                    String message = responseData.getMessage();
-                                    if (message.equals("YES")) {
-                                        Toast.makeText(RegisterActivity.this, "Tài khoản, email hoặc số điện thoại đã dùng để đăng ký!", Toast.LENGTH_SHORT).show();
-                                    } else {
-//
-                                        API.api.Register(editText1.getText().toString().trim(),
-                                                        editText2.getText().toString().trim(),
-                                                        editText3.getText().toString().trim(),
-                                                        editText4.getText().toString().trim(),
-                                                        editText5.getText().toString().trim(),
-                                                        editText6.getText().toString().trim())
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(new Observer<ResponseData>() {
-                                                    @Override
-                                                    public void onSubscribe(@NonNull Disposable d) {
-                                                        // Xử lý khi đăng ký
-                                                    }
-
-                                                    @Override
-                                                    public void onNext(@NonNull ResponseData responseData1) {
-                                                        // Xử lý khi nhận được dữ liệu phản hồi
-                                                        if (responseData1.getMessage().equals("DONE")) {
-                                                            Toast.makeText(RegisterActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
-                                                        } else {
-                                                            Toast.makeText(RegisterActivity.this, "Không thành công!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onError(@NonNull Throwable e) {
-                                                        // Xử lý khi xảy ra lỗi
-                                                    }
-
-                                                    @Override
-                                                    public void onComplete() {
-                                                        // Xử lý khi hoàn thành
-                                                    }
-                                                });
-
+                                public void onNext(@NonNull ResponseData responseData1) {
+                                    // Xử lý khi nhận được dữ liệu phản hồi
+                                    if (responseData1.getMessage().equals("Done")) {
+                                        Toast.makeText(RegisterActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
+                                    } else if (responseData1.getMessage().equals("phone")) {
+                                        Toast.makeText(RegisterActivity.this, "Số điện thoại đã được dùng", Toast.LENGTH_SHORT).show();
+                                    } else if (responseData1.getMessage().equals("email")) {
+                                        Toast.makeText(RegisterActivity.this, "Email đã được dùng", Toast.LENGTH_SHORT).show();
+                                    } else if (responseData1.getMessage().equals("username")) {
+                                        Toast.makeText(RegisterActivity.this, "Tên tài khoản đã được dùng", Toast.LENGTH_SHORT).show();
+                                    } else if (responseData1.getMessage().equals("error")) {
+                                        Toast.makeText(RegisterActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
                                 @Override
                                 public void onError(@NonNull Throwable e) {
-
+                                    // Xử lý khi xảy ra lỗi
                                 }
 
                                 @Override
                                 public void onComplete() {
-
+                                    // Xử lý khi hoàn thành
                                 }
                             });
             }

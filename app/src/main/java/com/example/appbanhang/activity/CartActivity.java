@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -21,8 +22,11 @@ import android.widget.Toast;
 
 import com.example.appbanhang.Adapter.CartAdapter;
 import com.example.appbanhang.R;
+import com.example.appbanhang.fragment.NotifyFragment;
 import com.example.appbanhang.model.Product;
+import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.ShoppingCart;
+import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.service.API;
 import com.example.appbanhang.service.CheckLogin;
 import com.example.appbanhang.service.OnItemClickListenerCart;
@@ -33,6 +37,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +51,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     Toolbar toolbar;
-    List<ShoppingCart> Cart;
+    List<item_cart> item_carts;
     CartAdapter cartAdapter;
     List<Product> products;
     ImageButton subtract;
@@ -55,7 +60,9 @@ public class CartActivity extends AppCompatActivity {
     TextView quantity;
     CheckBox checkBox;
     TextView empty;
+    Button btmuahang;
     DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,17 +73,17 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void getCart(int id) {
-        API.api.getCart(id).subscribeOn(Schedulers.io())
+        API.api.getitemCart(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ShoppingCart>>() {
+                .subscribe(new Observer<List<item_cart>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull List<ShoppingCart> cart) {
-                        Cart = cart;
+                    public void onNext(@NonNull List<item_cart> cart) {
+                        item_carts = cart;
                     }
 
                     @Override
@@ -87,14 +94,15 @@ public class CartActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        if (Cart.isEmpty()) {
+                        if (item_carts.isEmpty()) {
                             empty.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
                         } else {
                             empty.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);}
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
 
-                        cartAdapter.setData(Cart, new OnItemClickListenerProduct() {
+                        cartAdapter.setData(item_carts, new OnItemClickListenerProduct() {
                             @Override
                             public void onItemClickProduct(Product product) {
                                 Intent intent = new Intent(getApplication(), ProductdetailsActivity.class);
@@ -121,20 +129,21 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         products = new ArrayList<>();
         cartAdapter = new CartAdapter();
-        Cart = new ArrayList<>();
+        item_carts = new ArrayList<>();
         subtract = findViewById(R.id.giam);
         add = findViewById(R.id.tang);
         tvtongtien = findViewById(R.id.tongtien);
         quantity = findViewById(R.id.soluong);
         checkBox = findViewById(R.id.checkBoxall);
         empty = findViewById(R.id.emptyTextView3);
+        btmuahang = findViewById(R.id.muahang);
     }
 
     private void ActionBar() {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    cartAdapter.setAllCheckBoxesChecked(b);
+                cartAdapter.setAllCheckBoxesChecked(b);
             }
         });
         setSupportActionBar(toolbar);
@@ -149,6 +158,13 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 onBackPressed();
                 finish();
+            }
+        });
+        btmuahang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -177,12 +193,14 @@ public class CartActivity extends AppCompatActivity {
     @SuppressLint("SuspiciousIndentation")
     public void Sum() {
         double sum = 0;
-        for (ShoppingCart x :
-                CartAdapter.Cart) {
-            if(x.isChecked())
-            sum += x.getSo_luong_san_pham() * x.getProduct().getGia_san_pham();
+        for (item_cart x :
+                CartAdapter.item_carts) {
+            if (x.getTrang_thai() == 1)
+                sum += x.getSo_luong_san_pham() * x.getProduct().getGia_san_pham();
         }
-        tvtongtien.setText(decimalFormat.format(sum)+" đ.");
-        
+        tvtongtien.setText(decimalFormat.format(sum) + " đ.");
+
     }
+
+
 }

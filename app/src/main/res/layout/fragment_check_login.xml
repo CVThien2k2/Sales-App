@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:id="@+id/toolbarcheck"
         android:layout_height="wrap_content"
-        app:title="Giỏ hàng"
+        app:title="Giỏ hànga"
         app:titleTextColor="@color/white"
         app:titleMarginStart="20dp"
         android:background="@color/purple_700"></androidx.appcompat.widget.Toolbar>

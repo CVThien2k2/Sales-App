@@ -239,6 +239,7 @@ public class HomeFragment extends Fragment {
                 if (CheckLogin.Login == false) {
                     com.example.appbanhang.fragment.CheckLogin fragment = new com.example.appbanhang.fragment.CheckLogin();
                     Bundle bundle = new Bundle();
+                    bundle.putString("myString", "Giỏ Hàng");
                     fragment.setArguments(bundle); // Truyền bundle cho fragment
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()

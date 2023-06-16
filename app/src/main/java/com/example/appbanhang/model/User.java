@@ -1,6 +1,8 @@
 package com.example.appbanhang.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private int id_nguoi_dung;
     private String ten_dang_nhap;
