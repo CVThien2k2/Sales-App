@@ -14,15 +14,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.appbanhang.Adapter.CartAdapter;
 import com.example.appbanhang.Adapter.PaymetAdapter;
 import com.example.appbanhang.R;
+import com.example.appbanhang.model.Parameter;
 import com.example.appbanhang.model.Product;
+import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.CheckLogin;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -35,32 +44,39 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView address;
     RecyclerView recyclerView;
     TextView tongthanhtoan;
+    TextView tongthanhtoan1;
+    TextView giatridonhang;
+    TextView phivanchuyen;
     Button dathang;
     PaymetAdapter paymetAdapter = new PaymetAdapter();
     List<item_cart> item_carts;
+    double phivc = 18000;
+    DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         init();
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            item_carts = (List<item_cart>) bundle.getSerializable("itemCarts");
-            paymetAdapter.setData(item_carts);
-            recyclerView.setAdapter(paymetAdapter);
-        }
-        getCart(1);
-//        ActionBar();
+        setClick();
+
+        getCart(CheckLogin.UserID);
+        ActionBar();
     }
-    public void init(){
-        toolbar = findViewById(R.id.toolbarinfo);
+
+    public void init() {
+        toolbar = findViewById(R.id.toolbarthanhtoan);
         address = findViewById(R.id.addressthanhtoan);
         recyclerView = findViewById(R.id.recyclerviewthanhtoan);
         tongthanhtoan = findViewById(R.id.tongthanhtoan);
         dathang = findViewById(R.id.dathang);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, recyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        giatridonhang = findViewById(R.id.giatridonhang);
+        phivanchuyen = findViewById(R.id.phivanchuyen);
+        tongthanhtoan1 = findViewById(R.id.tonggiatri);
     }
+
     private void ActionBar() {
         setSupportActionBar(toolbar);
 
@@ -76,8 +92,9 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
     }
+
     private void getCart(int id) {
-        API.api.getitemCart(id).subscribeOn(Schedulers.io())
+        API.api.getItemPayment(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<item_cart>>() {
                     @Override
@@ -102,5 +119,139 @@ public class PaymentActivity extends AppCompatActivity {
                         recyclerView.setAdapter(paymetAdapter);
                     }
                 });
+    }
+
+    public void setClick() {
+        address.setText("Địa chỉ giao hàng: " + CheckLogin.user.getDia_chi());
+        String tien = getIntent().getStringExtra("tien");
+        giatridonhang.setText(tien);
+        double tongtien = Double.parseDouble(tien) + phivc;
+        phivanchuyen.setText(decimalFormat.format(phivc));
+        tongthanhtoan1.setText(decimalFormat.format(tongtien) + "");
+        tongthanhtoan.setText(decimalFormat.format(tongtien) + "đ");
+        dathang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Date currentDate = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT")); // Thiết lập vùng thời gian
+                String formattedDate = dateFormat.format(currentDate);
+                API.api.createOrder(CheckLogin.UserID, formattedDate, tongtien, formattedDate, "Chờ xác nhận")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseData>() {
+                            String idcart;
+
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                                // Xử lý khi đăng ký
+                            }
+
+                            @Override
+                            public void onNext(@NonNull ResponseData responseData1) {
+                                // Xử lý khi nhận được dữ liệu phản hồi
+                                idcart = responseData1.getMessage();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                // Xử lý khi xảy ra lỗi
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                // Xử lý khi hoàn thành
+                                createItem(idcart);
+                            }
+                        });
+            }
+        });
+    }
+
+    public void createItem(String id) {
+        for (item_cart item : item_carts) {
+            Product product = item.getProduct();
+            Parameter parameter = item.getParameter();
+            API.api.createItemOrder(Integer.parseInt(id), product.getId_san_pham(), parameter.getId_thong_so(), item.getSo_luong_san_pham())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseData>() {
+                        String idcart;
+
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            // Xử lý khi đăng ký
+                        }
+
+                        @Override
+                        public void onNext(@NonNull ResponseData responseData1) {
+                            // Xử lý khi nhận được dữ liệu phản hồi
+                            idcart = responseData1.getMessage();
+                            Toast.makeText(PaymentActivity.this, idcart + ", Quay lại trang chủ để mua sắm tiếp", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            // Xử lý khi xảy ra lỗi
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // Xử lý khi hoàn thành
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+            API.api.deleteItemCart(item.getId_item_gio_hang())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseData>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            // Xử lý khi đăng ký
+                        }
+
+                        @Override
+                        public void onNext(@NonNull ResponseData responseData1) {
+                            // Xử lý khi nhận được dữ liệu phản hồi
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            // Xử lý khi xảy ra lỗi
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // Xử lý khi hoàn thành
+                        }
+                    });
+            API.api.setquantity(parameter.getId_thong_so(),parameter.getCon_lai()-item.getSo_luong_san_pham())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseData>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            // Xử lý khi đăng ký
+                        }
+
+                        @Override
+                        public void onNext(@NonNull ResponseData responseData1) {
+                            // Xử lý khi nhận được dữ liệu phản hồi
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            // Xử lý khi xảy ra lỗi
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // Xử lý khi hoàn thành
+                        }
+                    });
+        }
     }
 }

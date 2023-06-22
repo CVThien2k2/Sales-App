@@ -7,7 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +71,12 @@ public class Profile extends AppCompatActivity {
             }
         });
     }
+    public void checkChange(){
+        if(name.getText().toString().equals(user.getHo_ten())&&email.getText().toString().equals(user.getEmail())&&address.getText().toString().equals(user.getDia_chi())&&phone.getText().toString().equals(user.getSo_dien_thoai())){
+            save.setEnabled(false);
+        }
+        else save.setEnabled(true);
+    }
     private void setView() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -76,10 +84,12 @@ public class Profile extends AppCompatActivity {
             name.setText(user.getHo_ten());
             email.setText(user.getEmail());
             phone.setText(user.getSo_dien_thoai());
+            address.setText(user.getDia_chi());
 
         }
     }
     public void setClick(){
+        save.setEnabled(false);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +109,71 @@ public class Profile extends AppCompatActivity {
                 dialog.show();
             }
         });
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkChange();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkChange();
+            }
+        });
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkChange();
+            }
+        });
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkChange();
+            }
+        });
+        address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkChange();
+            }
+        });
+
     }
     private void showInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
@@ -115,7 +190,7 @@ public class Profile extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String inputValue = input.getText().toString();
                 if(inputValue.equals(user.getMat_khau())){
-                    Toast.makeText(Profile.this, "lưu thành công", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Profile.this, "lưu thành công", Toast.LENGTH_SHORT).show();
                     setUser(user.getId_nguoi_dung(),name.getText().toString().trim(),email.getText().toString().trim(),phone.getText().toString().trim(),address.getText().toString());
                 }
                 else {

@@ -4,87 +4,198 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.PaymentActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".activity.PaymentActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarthanhtoan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="Thanh toán"
-        android:layout_marginLeft="20dp">
-    </androidx.appcompat.widget.Toolbar>
-    <View
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="0.9"
+        app:title="Thanh toán"></androidx.appcompat.widget.Toolbar>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#000000" />
-    <LinearLayout
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp">
-        <TextView
-            android:id="@+id/addressthanhtoan"
-            android:textSize="18dp"
-            android:layout_marginLeft="15dp"
-            android:text="Địa chỉ giao hàng: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></TextView>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000000" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewthanhtoan"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8.8"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            ></androidx.recyclerview.widget.RecyclerView>
+        android:layout_marginBottom="10dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="#FF5722"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="6"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/addressthanhtoan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="Địa chỉ giao hàng: "
+                    android:textSize="18dp"></TextView>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewthanhtoan"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                 />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
                 <TextView
-                    android:layout_marginLeft="10dp"
-                    android:textSize="20dp"
-                    android:text="Tổng giá trị đơn hàng :"
-                    android:layout_width="match_parent"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    ></TextView>
+                    android:text="Giá trị sản phẩm"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
                 <TextView
-                    android:id="@+id/tongthanhtoan"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
-                    android:text="00.000d d"
+                    android:id="@+id/giatridonhang"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginRight="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:text="100.000"
                     ></TextView>
             </LinearLayout>
-            <Button
-                android:id="@+id/dathang"
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:text="Đặt hàng"
-                android:layout_height="match_parent"></Button>
+            <View
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Phí vận chyển: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <TextView
+                    android:id="@+id/phivanchuyen"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="18.000"
+                    ></TextView>
+            </LinearLayout>
+            <View
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Tổng giá trị đơn hàng: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+                <TextView
+                    android:id="@+id/tonggiatri"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="118.000"
+                    ></TextView>
+            </LinearLayout>
+            <View
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
 
         </LinearLayout>
 
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.1"
+        android:background="#FF5722"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="Tổng giá trị đơn hàng :"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tongthanhtoan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="00.000d d"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/dathang"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:text="Đặt hàng" />
+
     </LinearLayout>
+
 </LinearLayout>

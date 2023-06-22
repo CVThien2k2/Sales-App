@@ -3,6 +3,7 @@ package com.example.appbanhang.Adapter;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +16,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,9 +28,9 @@ import com.example.appbanhang.activity.ProductdetailsActivity;
 import com.example.appbanhang.model.Parameter;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ResponseData;
-import com.example.appbanhang.model.ShoppingCart;
 import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.DeleteEvent;
 import com.example.appbanhang.service.ImageClickListener;
 import com.example.appbanhang.service.OnItemClickListenerCart;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
@@ -50,6 +53,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public static List<item_cart> item_carts;
     DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
     private OnItemClickListenerProduct itemClickListener;
+    public static int delete = -1;
 
     public void setData(List<item_cart> Cart, OnItemClickListenerProduct itemClickListener) {
         this.item_carts = Cart;
@@ -108,6 +112,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             public void onImageClick(View view, int pos, int giatri) {
                 if (giatri == 1) {
                     if (itemCart.getSo_luong_san_pham() == 1) {
+                        delete = j;
+                        EventBus.getDefault().postSticky(new DeleteEvent());
                     } else {
                         setDBclick(itemCart.getId_item_gio_hang(), itemCart.getSo_luong_san_pham() - 1, itemCart.getTrang_thai());
                         itemCart.setSo_luong_san_pham(itemCart.getSo_luong_san_pham() - 1);

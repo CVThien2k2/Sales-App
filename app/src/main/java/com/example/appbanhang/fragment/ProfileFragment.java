@@ -13,10 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.appbanhang.R;
-import com.example.appbanhang.activity.ProductdetailsActivity;
+import com.example.appbanhang.activity.HistoryActivity;
 import com.example.appbanhang.activity.Profile;
-import com.example.appbanhang.model.Product;
-import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.User;
 import com.example.appbanhang.service.API;
 import com.example.appbanhang.service.CheckLogin;
@@ -27,11 +25,12 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
-public class MeFragment extends Fragment {
+public class ProfileFragment extends Fragment {
     View view;
     
     User user;
     private LinearLayout profile;
+    private LinearLayout history;
     private ImageView edit;
     private TextView name;
     @Override
@@ -51,8 +50,10 @@ public class MeFragment extends Fragment {
         name = view.findViewById(R.id.tvprofile_name);
         profile = view.findViewById(R.id.thongtin);
         edit = view.findViewById(R.id.imgv_editname);
+        history = view.findViewById(R.id.lichsu);
         user = new User();
     }
+
 
     public void getUser(){
         API.api.getUser(CheckLogin.UserID)
@@ -92,6 +93,18 @@ public class MeFragment extends Fragment {
                 bundle.putSerializable("user", user);
 
                 intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), HistoryActivity.class);
+
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("user", user);
+//
+//                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

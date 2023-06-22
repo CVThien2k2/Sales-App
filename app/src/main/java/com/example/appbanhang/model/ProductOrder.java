@@ -2,95 +2,73 @@ package com.example.appbanhang.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class ProductOrder {
-    private int idDonHang;
-    private int idNguoiDung;
-    private Date ngayDatHang;
-    private int idSanPham;
-    private int soLuongSanPham;
-    private BigDecimal gia;
-    private Date ngayGiaoHang;
-    private String trangThaiDonHang;
+    private int id_don_hang;
+    private int id_nguoi_dung;
+    private Date ngay_dat_hang;
+    private int gia;
+    private Date ngay_giao_hang;
+    private String trang_thai_don_hang;
+//    List<item_order> item_orders;
 
-    public ProductOrder(int idDonHang, int idNguoiDung, Date ngayDatHang, int idSanPham,
-                        int soLuongSanPham, BigDecimal gia, Date ngayGiaoHang, String trangThaiDonHang) {
-        this.idDonHang = idDonHang;
-        this.idNguoiDung = idNguoiDung;
-        this.ngayDatHang = ngayDatHang;
-        this.idSanPham = idSanPham;
-        this.soLuongSanPham = soLuongSanPham;
+
+    public ProductOrder(int id_don_hang, int id_nguoi_dung, Date ngay_dat_hang, int gia, Date ngay_giao_hang, String trang_thai_don_hang) {
+        this.id_don_hang = id_don_hang;
+        this.id_nguoi_dung = id_nguoi_dung;
+        this.ngay_dat_hang = ngay_dat_hang;
         this.gia = gia;
-        this.ngayGiaoHang = ngayGiaoHang;
-        this.trangThaiDonHang = trangThaiDonHang;
+        this.ngay_giao_hang = ngay_giao_hang;
+        this.trang_thai_don_hang = trang_thai_don_hang;
     }
 
-    // Các phương thức getter và setter cho các thuộc tính
-
-    public int getIdDonHang() {
-        return idDonHang;
+    public int getId_don_hang() {
+        return id_don_hang;
     }
 
-    public void setIdDonHang(int idDonHang) {
-        this.idDonHang = idDonHang;
+    public void setId_don_hang(int id_don_hang) {
+        this.id_don_hang = id_don_hang;
     }
 
-    public int getIdNguoiDung() {
-        return idNguoiDung;
+    public int getId_nguoi_dung() {
+        return id_nguoi_dung;
     }
 
-    public void setIdNguoiDung(int idNguoiDung) {
-        this.idNguoiDung = idNguoiDung;
+    public void setId_nguoi_dung(int id_nguoi_dung) {
+        this.id_nguoi_dung = id_nguoi_dung;
     }
 
-    public Date getNgayDatHang() {
-        return ngayDatHang;
+    public Date getNgay_dat_hang() {
+        return ngay_dat_hang;
     }
 
-    public void setNgayDatHang(Date ngayDatHang) {
-        this.ngayDatHang = ngayDatHang;
+    public void setNgay_dat_hang(Date ngay_dat_hang) {
+        this.ngay_dat_hang = ngay_dat_hang;
     }
 
-    public int getIdSanPham() {
-        return idSanPham;
-    }
-
-    public void setIdSanPham(int idSanPham) {
-        this.idSanPham = idSanPham;
-    }
-
-    public int getSoLuongSanPham() {
-        return soLuongSanPham;
-    }
-
-    public void setSoLuongSanPham(int soLuongSanPham) {
-        this.soLuongSanPham = soLuongSanPham;
-    }
-
-    public BigDecimal getGia() {
+    public int getGia() {
         return gia;
     }
 
-    public void setGia(BigDecimal gia) {
+    public void setGia(int gia) {
         this.gia = gia;
     }
 
-    public Date getNgayGiaoHang() {
-        return ngayGiaoHang;
+    public Date getNgay_giao_hang() {
+        return ngay_giao_hang;
     }
 
-    public void setNgayGiaoHang(Date ngayGiaoHang) {
-        this.ngayGiaoHang = ngayGiaoHang;
+    public void setNgay_giao_hang(Date ngay_giao_hang) {
+        this.ngay_giao_hang = ngay_giao_hang;
     }
 
-    public String getTrangThaiDonHang() {
-        return trangThaiDonHang;
+    public String getTrang_thai_don_hang() {
+        return trang_thai_don_hang;
     }
 
-    public void setTrangThaiDonHang(String trangThaiDonHang) {
-        this.trangThaiDonHang = trangThaiDonHang;
+    public void setTrang_thai_don_hang(String trang_thai_don_hang) {
+        this.trang_thai_don_hang = trang_thai_don_hang;
     }
-
-
 }
 

@@ -3,56 +3,45 @@ package com.example.appbanhang.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appbanhang.R;
 import com.example.appbanhang.model.Parameter;
 import com.example.appbanhang.model.Product;
-import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.item_cart;
-import com.example.appbanhang.service.API;
-import com.example.appbanhang.service.ImageClickListener;
+import com.example.appbanhang.model.item_order;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
-import com.example.appbanhang.service.SumEvent;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-
-public class PaymetAdapter extends RecyclerView.Adapter<PaymetAdapter.PaymentViewHolder> {
-    public  List<item_cart> item_carts;
+public class item_order_Adapter extends RecyclerView.Adapter<com.example.appbanhang.Adapter.item_order_Adapter.itemOrderViewHolder> {
+    public List<item_order> item_orders;
+    private OnItemClickListenerProduct itemClickListener;
     DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
 
-    public  void setData(List<item_cart> Cart) {
-        this.item_carts = Cart;
+    public void setData(List<item_order> Cart, OnItemClickListenerProduct itemClickListener) {
+        this.item_orders = Cart;
+        this.itemClickListener = itemClickListener;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public PaymetAdapter.PaymentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public com.example.appbanhang.Adapter.item_order_Adapter.itemOrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment, parent, false);
-        return new PaymetAdapter.PaymentViewHolder(view);
+        return new com.example.appbanhang.Adapter.item_order_Adapter.itemOrderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PaymetAdapter.PaymentViewHolder holder, int position) {
-        item_cart itemCart = item_carts.get(position);
+    public void onBindViewHolder(@NonNull com.example.appbanhang.Adapter.item_order_Adapter.itemOrderViewHolder holder, int position) {
+        item_order itemCart = item_orders.get(position);
         Product product = itemCart.getProduct();
         Parameter parameter = itemCart.getParameter();
 
@@ -63,16 +52,23 @@ public class PaymetAdapter extends RecyclerView.Adapter<PaymetAdapter.PaymentVie
         holder.textviewGia.setText("Thành tiền " + decimalFormat.format(product.getGia_san_pham() * itemCart.getSo_luong_san_pham()) + "đ ");
         holder.soluong.setText(itemCart.getSo_luong_san_pham() + "");
         holder.size.setText(parameter.getKich_thuoc());
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.onItemClickProduct(product);
+            }
+        });
     }
 
 
     @Override
     public int getItemCount() {
-        if (item_carts != null) return item_carts.size();
+        if (item_orders != null) return item_orders.size();
         return 0;
     }
 
-    public class PaymentViewHolder extends RecyclerView.ViewHolder {
+    public class itemOrderViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView textViewname;
         private TextView textviewGia;
@@ -81,14 +77,16 @@ public class PaymetAdapter extends RecyclerView.Adapter<PaymetAdapter.PaymentVie
 
 
 
-        public PaymentViewHolder(@NonNull View itemView) {
+        public itemOrderViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imagecart2);
             textViewname = itemView.findViewById(R.id.namecart2);
             textviewGia = itemView.findViewById(R.id.giacart2);
             soluong = itemView.findViewById(R.id.soluong2);
             size = itemView.findViewById(R.id.sizeitem);
+
         }
 
     }
 }
+

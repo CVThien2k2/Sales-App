@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete() {
                                     if (!user.isEmpty()){
+                                        CheckLogin.user = user.get(0);
                                         CheckLogin.Login = true;
                                         CheckLogin.UserID = user.get(0).getId_nguoi_dung();
                                         error.setText("Đăng nhập thành công");

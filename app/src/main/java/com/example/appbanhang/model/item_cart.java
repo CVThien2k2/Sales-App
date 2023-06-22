@@ -2,7 +2,7 @@ package com.example.appbanhang.model;
 
 public class item_cart {
     private int id_item_gio_hang;
-    private int id_gio_hang;
+    private int id_nguoi_dung;
     private int so_luong_san_pham;
     private int trang_thai;
     private Product product;
@@ -11,13 +11,21 @@ public class item_cart {
     public item_cart() {
     }
 
-    public item_cart(int id_item_gio_hang, int id_gio_hang, int so_luong_san_pham, int trang_thai, Product product, Parameter parameter) {
+    public int getId_nguoi_dung() {
+        return id_nguoi_dung;
+    }
+
+    public item_cart(int id_item_gio_hang, int id_nguoi_dung, int so_luong_san_pham, int trang_thai, Product product, Parameter parameter) {
         this.id_item_gio_hang = id_item_gio_hang;
-        this.id_gio_hang = id_gio_hang;
+        this.id_nguoi_dung = id_nguoi_dung;
         this.so_luong_san_pham = so_luong_san_pham;
         this.trang_thai = trang_thai;
         this.product = product;
         this.parameter = parameter;
+    }
+
+    public void setId_nguoi_dung(int id_nguoi_dung) {
+        this.id_nguoi_dung = id_nguoi_dung;
     }
 
     public int getId_item_gio_hang() {
@@ -28,13 +36,7 @@ public class item_cart {
         this.id_item_gio_hang = id_item_gio_hang;
     }
 
-    public int getId_gio_hang() {
-        return id_gio_hang;
-    }
 
-    public void setId_gio_hang(int id_gio_hang) {
-        this.id_gio_hang = id_gio_hang;
-    }
 
     public int getSo_luong_san_pham() {
         return so_luong_san_pham;

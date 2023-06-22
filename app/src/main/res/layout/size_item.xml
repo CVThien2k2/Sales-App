@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="134dp"
+    android:layout_height="wrap_content"
+    android:background="#E8E5CB"
+    android:gravity="center"
+    android:padding="15dp"
+    android:orientation="vertical"
+    android:id="@+id/linearcontainer"
+    >
+
+    <TextView
+        android:background="@color/white"
+        android:id="@+id/textViewSize"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="XL"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/soluong3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kho: 3000."
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        ></TextView>
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="20dp">
+
+    <TextView
+        android:id="@+id/idcart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đơn hàng 1"
+        android:background="#FFC107"
+        android:textColor="@color/black"
+        android:textSize="18sp"></TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
+        android:id="@+id/recyclerviewdonhang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFC107"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đơn giá: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/tongdongia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="300.000 "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            ></TextView>
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="đ"
+            android:layout_marginRight="30dp"></TextView>
+
+        <Button
+            android:id="@+id/btmualai"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Mua Lại"></Button>
+    </LinearLayout>
+    ></LinearLayout>

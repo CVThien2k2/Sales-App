@@ -4,25 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
 import com.example.appbanhang.fragment.CheckLogin;
-import com.example.appbanhang.fragment.ListProductFragment;
-import com.example.appbanhang.fragment.MeFragment;
+import com.example.appbanhang.fragment.ProfileFragment;
 import com.example.appbanhang.fragment.NotifyFragment;
 import com.example.appbanhang.R;
 import com.example.appbanhang.fragment.SearchFragment;
 import com.example.appbanhang.fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment.setArguments(bundle);
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
                         } else {
-                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new MeFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new ProfileFragment()).commit();
                         }
                         return true;
                 }
