@@ -32,10 +32,6 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
                 return new ManFragment();
             case 1:
                 return new WomenFragment();
-            case 2:
-                return new Kid1Fragment();
-            case 3:
-                return new Kid2Fragment();
             default:
                 return new ManFragment();
         }
@@ -43,7 +39,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 2;
     }
 
 }

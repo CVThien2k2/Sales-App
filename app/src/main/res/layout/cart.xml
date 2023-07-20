@@ -38,7 +38,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="5.8"
             android:orientation="vertical">
 
             <TextView
@@ -49,32 +49,23 @@
                 android:text="Tên sản phẩm"
                 android:textSize="20dp"></TextView>
 
-            <TextView
-                android:id="@+id/giacart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:text="Tổng giá:  250.000 đ  "
-                android:textColor="#F40000"
-                android:textSize="13dp"></TextView>
+
             <TextView
                 android:id="@+id/luotban"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lượt bán: 3000 lượt"
+                android:text="Size - S"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#F40000"
-                android:textSize="13dp"></TextView>
+                android:textSize="15dp"></TextView>
 
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+
+                android:layout_marginTop="5dp"
                 android:text="Số lượng"
                 android:textColor="#0B0A0A"
                 android:textSize="13dp"
@@ -82,7 +73,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="10">
@@ -120,6 +111,16 @@
 
 
             </LinearLayout>
+            <TextView
+                android:id="@+id/giacart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Tổng giá:  250.000 đ  "
+                android:textColor="#F40000"
+                android:textSize="18dp"></TextView>
         </LinearLayout>
 
     </LinearLayout>

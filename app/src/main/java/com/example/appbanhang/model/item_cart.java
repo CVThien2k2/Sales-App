@@ -1,6 +1,9 @@
 package com.example.appbanhang.model;
 
-public class item_cart {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class item_cart  implements Serializable {
     private int id_item_gio_hang;
     private int id_nguoi_dung;
     private int so_luong_san_pham;
@@ -69,5 +72,22 @@ public class item_cart {
 
     public void setParameter(Parameter parameter) {
         this.parameter = parameter;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        item_cart other = (item_cart) obj;
+        return id_item_gio_hang == other.id_item_gio_hang && Objects.equals(product, other.product) && Objects.equals(parameter, other.parameter);
+    }
+
+    // Override phương thức hashCode()
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_item_gio_hang, product, parameter);
     }
 }

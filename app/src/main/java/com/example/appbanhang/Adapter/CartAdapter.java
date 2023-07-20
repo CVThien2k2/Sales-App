@@ -3,6 +3,8 @@ package com.example.appbanhang.Adapter;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.CallBackClass;
 import com.example.appbanhang.service.DeleteEvent;
 import com.example.appbanhang.service.ImageClickListener;
 import com.example.appbanhang.service.OnItemClickListenerCart;
@@ -53,10 +56,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public static List<item_cart> item_carts;
     DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
     private OnItemClickListenerProduct itemClickListener;
+    private Activity mActivity;
     public static int delete = -1;
+    private CallBackClass callback;
 
-    public void setData(List<item_cart> Cart, OnItemClickListenerProduct itemClickListener) {
+    public CartAdapter() {
+    }
+
+    public void setData(List<item_cart> Cart, OnItemClickListenerProduct itemClickListener, Activity activity,CallBackClass callback) {
+        this.callback = callback;
         this.item_carts = Cart;
+        this.mActivity = activity;
         this.itemClickListener = itemClickListener;
         notifyDataSetChanged();
     }
@@ -78,8 +88,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         Picasso.get().load(product.getHinh_anh()).into(holder.imageView);
         holder.textViewname.setText(product.getTen_san_pham());
-        holder.textviewGia.setText("Thành tiền " + decimalFormat.format(product.getGia_san_pham() * itemCart.getSo_luong_san_pham()) + "đ ");
-        holder.textviewLuotban.setText("Lượt bán: " + product.getDa_ban() + " lượt.");
+        holder.textviewGia.setText("Tổng giá: " + decimalFormat.format(product.getGia_san_pham() * itemCart.getSo_luong_san_pham()) + "đ ");
+        holder.textviewLuotban.setText("Size : " + parameter.getKich_thuoc() );
         holder.soluong.setText(itemCart.getSo_luong_san_pham() + "");
         if (itemCart.getTrang_thai() == 1) {
             holder.checkBox.setChecked(true);
@@ -123,8 +133,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                         setDBclick(itemCart.getId_item_gio_hang(),itemCart.getSo_luong_san_pham() +1 ,itemCart.getTrang_thai());
                         itemCart.setSo_luong_san_pham(itemCart.getSo_luong_san_pham() + 1);
                     }
+                    else{
+                        Toast.makeText(mActivity.getApplicationContext(), "Sản phẩm này chỉ còn "+ parameter.getCon_lai()+" sản phẩm", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                holder.textviewGia.setText("Thành tiền " + decimalFormat.format(product.getGia_san_pham() * itemCart.getSo_luong_san_pham()) + "đ ");
+                holder.textviewGia.setText("Tổng giá: " + decimalFormat.format(product.getGia_san_pham() * itemCart.getSo_luong_san_pham()) + "đ ");
                 holder.soluong.setText(itemCart.getSo_luong_san_pham() + "");
                 EventBus.getDefault().postSticky(new SumEvent());
             }
@@ -136,6 +149,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseData>() {
+                    String res;
                     @Override
                     public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
                         // Xử lý khi đăng ký
@@ -144,7 +158,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull ResponseData responseData1) {
                         // Xử lý khi nhận được dữ liệu phản hồi
-
+                    res = responseData1.getMessage();
                     }
 
                     @Override
@@ -155,6 +169,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     @Override
                     public void onComplete() {
                         // Xử lý khi hoàn thành
+                        if(res.equals("Error")){
+                            callback.onCallback();
+                            Toast.makeText(mActivity.getApplicationContext(), "Số lượng sản phẩm đã thay đổi, đã cập nhật lại", Toast.LENGTH_SHORT).show();
+                        }
+                        
                     }
                 });
 

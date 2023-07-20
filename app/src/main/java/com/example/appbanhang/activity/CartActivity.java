@@ -29,11 +29,13 @@ import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ResponseData;
 import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.CallBackClass;
 import com.example.appbanhang.service.CheckLogin;
 import com.example.appbanhang.service.DeleteEvent;
 import com.example.appbanhang.service.OnItemClickListenerCart;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 import com.example.appbanhang.service.SumEvent;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,6 +56,7 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     Toolbar toolbar;
     List<item_cart> item_carts;
+    List<item_cart> item_carts_check;
     CartAdapter cartAdapter;
     List<Product> products;
     ImageButton subtract;
@@ -65,6 +68,7 @@ public class CartActivity extends AppCompatActivity {
     Button btmuahang;
     double sum = 0;
     DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class CartActivity extends AppCompatActivity {
         getCart(CheckLogin.UserID);
     }
 
-    private void getCart(int id) {
+    public void getCart(int id) {
         API.api.getitemCart(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<item_cart>>() {
@@ -118,6 +122,11 @@ public class CartActivity extends AppCompatActivity {
 
                             }
 
+                        }, CartActivity.this, new CallBackClass() {
+                            @Override
+                            public void onCallback() {
+                                getCart(CheckLogin.UserID);
+                            }
                         });
                         recyclerView.setAdapter(cartAdapter);
                         Sum();
@@ -132,6 +141,7 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         products = new ArrayList<>();
         cartAdapter = new CartAdapter();
+        item_carts_check = new ArrayList<>();
         item_carts = new ArrayList<>();
         subtract = findViewById(R.id.giam);
         add = findViewById(R.id.tang);
@@ -141,6 +151,7 @@ public class CartActivity extends AppCompatActivity {
         empty = findViewById(R.id.emptyTextView3);
         btmuahang = findViewById(R.id.muahang);
     }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -172,13 +183,67 @@ public class CartActivity extends AppCompatActivity {
         btmuahang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                count = 0;
+                for (item_cart x : CartAdapter.item_carts) {
+                    if (x.getTrang_thai() == 1) {
+                        count++;
+                        break;
+                    }
+                }
+                if (count == 1) {
+                    API.api.getitemCart(CheckLogin.UserID).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<List<item_cart>>() {
 
-                Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
-                intent.putExtra("tien", String.valueOf(sum));
-                startActivity(intent);
+                                @Override
+                                public void onSubscribe(@NonNull Disposable d) {
+
+                                }
+
+                                @Override
+                                public void onNext(@NonNull List<item_cart> cart) {
+                                    item_carts_check = cart;
+                                }
+
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+                                    Log.d(TAG, "onError: " + e.getMessage());
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+                                    int i = 0;
+                                    if (item_carts.size() == item_carts_check.size())
+                                        while (i < item_carts.size()) {
+
+                                            if (item_carts_check.get(i).getSo_luong_san_pham() != item_carts.get(i).getSo_luong_san_pham()) {
+                                                count++;
+                                                break;
+                                            }
+                                            i++;
+                                        }
+                                    if(count==1 ) {
+                                        Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+                                        intent.putExtra("tien", String.valueOf(sum));
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(CartActivity.this, "Có sản phẩm đã đã hết hàng, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
+                                        getCart(CheckLogin.UserID);
+                                    }
+
+                                }
+                            });
+
+
+                } else {
+                    Toast.makeText(CartActivity.this, "Hãy chọn sản phẩm bạn muốn mua", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
 
     @Override
     protected void onStart() {
@@ -212,9 +277,10 @@ public class CartActivity extends AppCompatActivity {
         tvtongtien.setText(decimalFormat.format(sum) + " đ.");
 
     }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void eventdelete(DeleteEvent event) {
-        if (event != null && CartAdapter.delete != -1 ) {
+        if (event != null && CartAdapter.delete != -1) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Xác nhận xóa");
             builder.setMessage("Bạn có muốn xóa sản phẩm khỏi giỏ hàng?");

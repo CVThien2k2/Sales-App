@@ -44,12 +44,6 @@ public class SearchFragment extends Fragment {
                 case 1:
                     tab.setText("Women");
                     break;
-                case 2:
-                    tab.setText("Kid");
-                    break;
-                case 3:
-                    tab.setText("Kid2");
-                    break;
             }
         }).attach();
     }

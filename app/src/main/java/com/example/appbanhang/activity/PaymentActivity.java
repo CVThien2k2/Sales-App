@@ -29,6 +29,7 @@ import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -49,8 +50,9 @@ public class PaymentActivity extends AppCompatActivity {
     TextView phivanchuyen;
     Button dathang;
     PaymetAdapter paymetAdapter = new PaymetAdapter();
-    List<item_cart> item_carts;
+    List<item_cart> item_carts = new ArrayList<>();
     double phivc = 18000;
+    int count;
     DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
     @Override
@@ -59,8 +61,6 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         init();
         setClick();
-
-        getCart(CheckLogin.UserID);
         ActionBar();
     }
 
@@ -124,7 +124,8 @@ public class PaymentActivity extends AppCompatActivity {
     public void setClick() {
         address.setText("Địa chỉ giao hàng: " + CheckLogin.user.getDia_chi());
         String tien = getIntent().getStringExtra("tien");
-        giatridonhang.setText(tien);
+        item_cart item = (item_cart) getIntent().getSerializableExtra("item");
+        giatridonhang.setText(decimalFormat.format(Double.parseDouble(tien)));
         double tongtien = Double.parseDouble(tien) + phivc;
         phivanchuyen.setText(decimalFormat.format(phivc));
         tongthanhtoan1.setText(decimalFormat.format(tongtien) + "");
@@ -136,36 +137,85 @@ public class PaymentActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT")); // Thiết lập vùng thời gian
                 String formattedDate = dateFormat.format(currentDate);
-                API.api.createOrder(CheckLogin.UserID, formattedDate, tongtien, formattedDate, "Chờ xác nhận")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<ResponseData>() {
-                            String idcart;
 
-                            @Override
-                            public void onSubscribe(@NonNull Disposable d) {
-                                // Xử lý khi đăng ký
-                            }
+                count = 0;
+                for(int i=0; i< item_carts.size();i++){
+                    int finalI = i;
+                    API.api.checkItemPayment(item_carts.get(i).getParameter().getId_thong_so(),item_carts.get(i).getSo_luong_san_pham())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<ResponseData>() {
+                                String res;
 
-                            @Override
-                            public void onNext(@NonNull ResponseData responseData1) {
-                                // Xử lý khi nhận được dữ liệu phản hồi
-                                idcart = responseData1.getMessage();
-                            }
+                                @Override
+                                public void onSubscribe(@NonNull Disposable d) {
+                                    // Xử lý khi đăng ký
+                                }
 
-                            @Override
-                            public void onError(@NonNull Throwable e) {
-                                // Xử lý khi xảy ra lỗi
-                            }
+                                @Override
+                                public void onNext(@NonNull ResponseData responseData1) {
+                                    // Xử lý khi nhận được dữ liệu phản hồi
+                                    res = responseData1.getMessage();
+                                }
 
-                            @Override
-                            public void onComplete() {
-                                // Xử lý khi hoàn thành
-                                createItem(idcart);
-                            }
-                        });
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+                                    // Xử lý khi xảy ra lỗi
+                                }
+
+                                @Override
+                                public void onComplete() {
+                                   if(res.equals("Error")){
+                                       count++;
+                                   }
+                                    if(finalI ==item_carts.size()-1){
+                                        if(count==0)
+                                            API.api.createOrder(CheckLogin.UserID, formattedDate, tongtien, formattedDate, "Chờ xác nhận")
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(new Observer<ResponseData>() {
+                                                        String idcart;
+
+                                                        @Override
+                                                        public void onSubscribe(@NonNull Disposable d) {
+                                                            // Xử lý khi đăng ký
+                                                        }
+
+                                                        @Override
+                                                        public void onNext(@NonNull ResponseData responseData1) {
+                                                            // Xử lý khi nhận được dữ liệu phản hồi
+                                                            idcart = responseData1.getMessage();
+                                                        }
+
+                                                        @Override
+                                                        public void onError(@NonNull Throwable e) {
+                                                            // Xử lý khi xảy ra lỗi
+                                                        }
+
+                                                        @Override
+                                                        public void onComplete() {
+                                                            // Xử lý khi hoàn thành
+                                                            createItem(idcart);
+                                                        }
+                                                    });
+                                        else Toast.makeText(PaymentActivity.this, "Có sản phẩm đã hết hàng", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                }
+
+
             }
         });
+        if (item != null) {
+            item_carts.add(item);
+            paymetAdapter.setData(item_carts);
+            recyclerView.setAdapter(paymetAdapter);
+        }
+        else{
+            getCart(CheckLogin.UserID);
+        }
     }
 
     public void createItem(String id) {

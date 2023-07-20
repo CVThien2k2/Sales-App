@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            error.setVisibility(View.GONE);
+                            error.setVisibility(View.INVISIBLE);
                         }
                     }, 5000);
                 }

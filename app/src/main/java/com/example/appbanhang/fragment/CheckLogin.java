@@ -70,7 +70,6 @@ public class CheckLogin extends Fragment {
 //
 //                intent.putExtras(bundle);
                 startActivity(intent);
-                Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
             }
         });
         register.setOnClickListener(new View.OnClickListener() {

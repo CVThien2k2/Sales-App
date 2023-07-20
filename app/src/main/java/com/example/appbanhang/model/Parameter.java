@@ -1,6 +1,8 @@
 package com.example.appbanhang.model;
 
-public class Parameter {
+import java.io.Serializable;
+
+public class Parameter implements Serializable {
     private int id_thong_so;
     private int id_san_pham;
     private int so_luong;

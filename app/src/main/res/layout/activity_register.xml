@@ -27,7 +27,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/user"
             android:ems="10"
             android:hint="Vui lòng nhập tài khoản"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Không hợp lệ, vui lòng nhập lại"
             android:textColor="#EC0707"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"></TextView>
 
         <EditText
@@ -48,7 +48,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/lock"
             android:ems="10"
             android:hint="Vui lòng nhập mật khẩu"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="Không hợp lệ, vui lòng nhập lại"
             android:textColor="#EC0707"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"></TextView>
 
         <EditText
@@ -69,7 +69,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/lock"
             android:ems="10"
             android:hint="Vui lòng nhập lại mật khẩu"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Không hợp lệ, vui lòng nhập lại"
             android:textColor="#EC0707"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"></TextView>
 
         <EditText
@@ -90,7 +90,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/hoten"
             android:ems="10"
             android:hint="Vui lòng nhập họ và tên"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:text="Không hợp lệ, vui lòng nhập lại"
             android:textColor="#EC0707"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"></TextView>
 
         <EditText
@@ -111,7 +111,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/gmail"
             android:ems="10"
             android:hint="Vui lòng nhập email đăng ký"
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:text="Không hợp lệ, vui lòng nhập lại"
             android:textColor="#EC0707"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"></TextView>
 
         <EditText
@@ -132,7 +132,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/phone"
             android:ems="10"
             android:hint="Vui lòng nhập số điện thoại"
@@ -145,8 +145,28 @@
             android:layout_height="wrap_content"
             android:text="Không hợp lệ, vui lòng nhập lại"
             android:textColor="#EC0707"
-            android:visibility="gone"
+            android:visibility="invisible"
 
+            android:layout_gravity="center_horizontal"></TextView>
+        <EditText
+            android:id="@+id/diachi"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/place"
+            android:ems="10"
+            android:hint="Vui lòng nhập địa chỉ"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+        <TextView
+            android:id="@+id/thongbao7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không hợp lệ, vui lòng nhập lại"
+            android:textColor="#EC0707"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"></TextView>
 
         <Button
@@ -164,12 +184,12 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:text="Nếu bạn đã có tài khoản, hãy " />
 
         <TextView
-            android:id="@+id/register3"
+            android:id="@+id/login6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="đăng nhập."

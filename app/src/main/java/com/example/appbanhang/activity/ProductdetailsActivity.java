@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,10 @@ import com.example.appbanhang.model.Parameter;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ProductCategory;
 import com.example.appbanhang.model.ResponseData;
+import com.example.appbanhang.model.item_cart;
+import com.example.appbanhang.model.item_order;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.AnimationUtil;
 import com.example.appbanhang.service.CheckLogin;
 import com.example.appbanhang.service.OnItemClickListenerString;
 import com.example.appbanhang.service.OnItemClickParameter;
@@ -51,6 +55,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,16 +66,17 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ProductdetailsActivity extends AppCompatActivity {
-     Dialog dialog;
+    Dialog dialog;
+    DecimalFormat decimalFormat = new DecimalFormat("#,###"); // Mẫu định dạng số
     private Toolbar toolbar;
     private TextView txttensp;
     private TextView txtdaban;
     private TextView txtdanhgia;
     private TextView txtgiatien;
     private TextView txtmota;
-
+    private ImageView shoppingcart;
+    private ImageView animationView;
     private ImageView imagesp;
-    private int id;
     Product product;
     Button themgiohang;
 
@@ -80,6 +86,7 @@ public class ProductdetailsActivity extends AppCompatActivity {
     Button buttonMinus;
     Button buttonPlus;
     Button buttonBuy;
+    Button buyNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +107,8 @@ public class ProductdetailsActivity extends AppCompatActivity {
             Picasso.get().load(product.getHinh_anh()).into(imagesp);
             txtdaban.setText(product.getDa_ban() + " lần.");
             txtdanhgia.setText(product.getDanh_gia() + "/5.");
-            txtgiatien.setText("Giá tiền: " + product.getGia_san_pham() + " đ.");
-            txtmota.setText("Mô tả sản phẩm: \n\t" + product.getMo_ta());
+            txtgiatien.setText("Giá tiền: " + decimalFormat.format(product.getGia_san_pham()) + " đ.");
+            txtmota.setText("  +" + product.getMo_ta());
         }
     }
 
@@ -114,8 +121,13 @@ public class ProductdetailsActivity extends AppCompatActivity {
         txtmota = findViewById(R.id.motachitiet);
         imagesp = findViewById(R.id.imagechitiet);
         themgiohang = findViewById(R.id.themgiohang);
+        shoppingcart = findViewById(R.id.cartIcon);
+        animationView = findViewById(R.id.animationview);
+        buyNow = findViewById(R.id.muangay);
+
         parameterList = new ArrayList<>();
         sizeAdapter = new SizeAdapter();
+
     }
 
     private void ActionBar() {
@@ -136,7 +148,7 @@ public class ProductdetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void showBuyDialog() {
+    private void showBuyDialog(int x) {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.productselection);
@@ -157,10 +169,14 @@ public class ProductdetailsActivity extends AppCompatActivity {
         buttonMinus = dialog.findViewById(R.id.buttonMinus);
         buttonPlus = dialog.findViewById(R.id.buttonPlus);
         buttonBuy = dialog.findViewById(R.id.buttonBuy);
+        if (x == 1) {
+            buttonBuy.setText("Thêm");
+        } else if (x == 0) {
+            buttonBuy.setText("Mua ngay");
+        }
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerview4);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
-
 
 
         // TODO: Lấy danh sách size từ database cho sản phẩm hiện tại
@@ -201,9 +217,6 @@ public class ProductdetailsActivity extends AppCompatActivity {
         editTextQuantity.setEnabled(false);
         buttonMinus.setEnabled(false);
         buttonPlus.setEnabled(false);
-
-
-
         dialog.show();
     }
 
@@ -212,7 +225,33 @@ public class ProductdetailsActivity extends AppCompatActivity {
         themgiohang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBuyDialog();
+                if (CheckLogin.Login == true) {
+                    showBuyDialog(1);
+                } else {
+                    Toast.makeText(ProductdetailsActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        shoppingcart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckLogin.Login == false) {
+                    Toast.makeText(ProductdetailsActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        buyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckLogin.Login == true) {
+                    showBuyDialog(0);
+                } else {
+                    Toast.makeText(ProductdetailsActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
     }
@@ -233,7 +272,7 @@ public class ProductdetailsActivity extends AppCompatActivity {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void SelectEvent(SelectionEvent event) {
-        if (event != null) {
+        if (event != null && buttonBuy != null) {
             select();
         }
     }
@@ -245,8 +284,8 @@ public class ProductdetailsActivity extends AppCompatActivity {
             buttonMinus.setEnabled(true);
             buttonPlus.setEnabled(true);
             int max1 = parameterList.get(SizeAdapter.selection).getCon_lai();
-            if(Integer.parseInt(editTextQuantity.getText().toString()) > max1){
-                editTextQuantity.setText(max1+"");
+            if (Integer.parseInt(editTextQuantity.getText().toString()) > max1) {
+                editTextQuantity.setText(max1 + "");
             }
             editTextQuantity.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -268,7 +307,7 @@ public class ProductdetailsActivity extends AppCompatActivity {
                         if (inputValue > max) {
                             // Nếu giá trị nhập vào vượt quá giới hạn tối đa
                             // Đặt lại giá trị của EditText thành giá trị tối đa
-                            editable.replace(0, editable.length(),  String.valueOf(max));
+                            editable.replace(0, editable.length(), String.valueOf(max));
                         }
                     }
                 }
@@ -277,7 +316,7 @@ public class ProductdetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (Integer.parseInt(editTextQuantity.getText().toString()) > 1) {
-                        editTextQuantity.setText((Integer.parseInt(editTextQuantity.getText().toString())-1)+"");
+                        editTextQuantity.setText((Integer.parseInt(editTextQuantity.getText().toString()) - 1) + "");
                     }
                 }
             });
@@ -287,49 +326,89 @@ public class ProductdetailsActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     int max = parameterList.get(SizeAdapter.selection).getCon_lai();
                     if (Integer.parseInt(editTextQuantity.getText().toString()) < max) {
-                        editTextQuantity.setText((Integer.parseInt(editTextQuantity.getText().toString())+1)+"");
+                        editTextQuantity.setText((Integer.parseInt(editTextQuantity.getText().toString()) + 1) + "");
                     }
                 }
             });
-            buttonBuy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                Parameter selectedSize =  parameterList.get(SizeAdapter.selection);
-                int quantity = Integer.parseInt(editTextQuantity.getText().toString());
-                    // TODO: Xử lý size và số lượng được chọn
-                    API.api.updateItemCart(CheckLogin.UserID,product.getId_san_pham(),selectedSize.getId_thong_so(),quantity)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<ResponseData>() {
-                                @Override
-                                public void onSubscribe(@NonNull Disposable d) {
-                                    // Xử lý khi đăng ký
-                                }
-
-                                @Override
-                                public void onNext(@NonNull ResponseData responseData1) {
-                                    // Xử lý khi nhận được dữ liệu phản hồi
-                                    if (responseData1.getMessage().equals("Success")) {
-                                        Toast.makeText(getApplicationContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                                    } else if (responseData1.getMessage().equals("Error")) {
-                                        Toast.makeText(getApplicationContext(), "Lỗi", Toast.LENGTH_SHORT).show();
+            if (buttonBuy.getText().equals("Thêm")) {
+                buttonBuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Parameter selectedSize = parameterList.get(SizeAdapter.selection);
+                        int quantity = Integer.parseInt(editTextQuantity.getText().toString());
+                        // TODO: Xử lý size và số lượng được chọn
+                        API.api.updateItemCart(CheckLogin.UserID, product.getId_san_pham(), selectedSize.getId_thong_so(), quantity)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<ResponseData>() {
+                                    @Override
+                                    public void onSubscribe(@NonNull Disposable d) {
+                                        // Xử lý khi đăng ký
                                     }
-                                }
 
-                                @Override
-                                public void onError(@NonNull Throwable e) {
-                                    // Xử lý khi xảy ra lỗi
-                                }
+                                    @Override
+                                    public void onNext(@NonNull ResponseData responseData1) {
+                                        // Xử lý khi nhận được dữ liệu phản hồi
+                                        if (responseData1.getMessage().equals("Success")) {
+                                            Toast.makeText(getApplicationContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                                        } else if (responseData1.getMessage().equals("Error")) {
+                                            Toast.makeText(getApplicationContext(), "Lỗi", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
-                                @Override
-                                public void onComplete() {
-                                    // Xử lý khi hoàn thành
-                                    dialog.dismiss();
-                                }
-                            });
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+                                        // Xử lý khi xảy ra lỗi
+                                    }
 
-                }
-            });
+                                    @Override
+                                    public void onComplete() {
+                                        // Xử lý khi hoàn thành
+                                        dialog.dismiss();
+                                    }
+                                });
+                        AnimationUtil.translateAnimation(animationView, themgiohang, shoppingcart, new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                    }
+                });
+            }
+            else if (buttonBuy.getText().equals("Mua ngay")){
+                buttonBuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Parameter selectedSize = parameterList.get(SizeAdapter.selection);
+                        int quantity = Integer.parseInt(editTextQuantity.getText().toString());
+                        item_cart item = new item_cart();
+                        item.setParameter(selectedSize);
+                        item.setProduct(product);
+                        item.setSo_luong_san_pham(quantity);
+                        double sum = quantity * product.getGia_san_pham();
+
+                        Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+                        intent.putExtra("tien",  String.valueOf(sum));
+                        intent.putExtra("item", item);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+            }
+
+
+
         } else {
             buttonBuy.setEnabled(false);
             editTextQuantity.setEnabled(false);

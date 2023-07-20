@@ -1,5 +1,7 @@
 package com.example.appbanhang.model;
 
+import java.io.Serializable;
+
 public class item_order {
     private int id_item_don_hang;
     private int id_don_hang;
@@ -7,6 +9,7 @@ public class item_order {
     private Product product;
     private Parameter parameter;
 
+    public item_order (){}
     public item_order(int id_item_don_hang, int id_don_hang, int so_luong_san_pham, Product product, Parameter parameter) {
         this.id_item_don_hang = id_item_don_hang;
         this.id_don_hang = id_don_hang;

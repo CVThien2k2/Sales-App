@@ -96,7 +96,7 @@
             android:layout_marginBottom="20dp"
             android:text="Thông tin tài khoản hoặc mật khẩu không chính xác."
             android:textColor="#EF0505"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/buttonlogin"
             app:layout_constraintEnd_toEndOf="@+id/buttonlogin"
             app:layout_constraintHorizontal_bias="0.515"

@@ -36,7 +36,7 @@ public interface API {
             .retryOnConnectionFailure(true)
             .addInterceptor(log);
 //    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH-mm-ss").create();
-    API api = new Retrofit.Builder().baseUrl("http://192.168.3.104/")
+    API api = new Retrofit.Builder().baseUrl("https://caovanthien09102002.000webhostapp.com/")
             .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
              .client(okBuilder.build())
@@ -194,6 +194,20 @@ public interface API {
     Observable<ResponseData> setquantity(
             @Field("id_thong_so") int id_thong_so,
             @Field("con_lai") int con_lai
+    );
+    //Huy Hang
+    @POST ("server/setChangeOrder.php")
+    @FormUrlEncoded
+    Observable<ResponseData> setChangeOrder(
+            @Field("id_don_hang") int id_don_hang,
+            @Field("trang_thai_don_hang") String trang_thai_don_hang
+    );
+    //Check Item
+    @POST ("server/checkItemPayment.php")
+    @FormUrlEncoded
+    Observable<ResponseData> checkItemPayment(
+            @Field("id_thong_so") int id_thong_so,
+            @Field("so_luong") int so_luong
     );
 
 }

@@ -78,7 +78,6 @@ public class ViewPagerAdapterHistory extends FragmentStateAdapter {
                 Bundle args = new Bundle();
                 args.putString("data", "Chờ xác nhận");
                 fragment.setArguments(args);
-
                 return fragment;
             }
         }
@@ -88,4 +87,11 @@ public class ViewPagerAdapterHistory extends FragmentStateAdapter {
     public int getItemCount() {
         return 4;
     }
+    @Override
+    public long getItemId(int position) {
+        // Đảm bảo mỗi lần chuyển sang trang khác, Fragment sẽ được tạo lại từ đầu
+        return super.getItemId(position);
+    }
+
+
 }

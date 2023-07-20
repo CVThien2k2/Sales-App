@@ -21,11 +21,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appbanhang.Adapter.ProductAdapter;
 import com.example.appbanhang.Adapter.ProductAdapter2;
 import com.example.appbanhang.R;
 import com.example.appbanhang.activity.ProductdetailsActivity;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.CheckConnection;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 import java.util.ArrayList;
@@ -53,15 +55,20 @@ public class ListProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_list_product, container, false);
-        Bundle bundle = getArguments();
-        init();
-        ActionBar();
-        if (bundle != null) {
-            String ten = bundle.getString("danhmuc");
-            String gioitinh = bundle.getString("gioitinh");
-            toolbar.setTitle(ten + " " + gioitinh);
-            getProduct(ten, gioitinh);
+        if (CheckConnection.isConnected(getActivity().getApplicationContext())) {
+            Bundle bundle = getArguments();
+            init();
+            ActionBar();
+            if (bundle != null) {
+                String ten = bundle.getString("danhmuc");
+                String gioitinh = bundle.getString("gioitinh");
+                toolbar.setTitle(ten + " " + gioitinh);
+                getProduct(ten, gioitinh);
+            }
+        } else {
+            Toast.makeText((getActivity().getApplicationContext()), "Vui lòng kiểm tra kết nối Internet", Toast.LENGTH_LONG).show();
         }
+
         return view;
     }
 

@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.appbanhang.R;
+import com.example.appbanhang.service.CheckConnection;
 
 public class NotifyFragment extends Fragment {
 
@@ -24,8 +26,12 @@ public class NotifyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_notify, container, false);
-        init();
-        ActionBar();
+        if (CheckConnection.isConnected(getActivity().getApplicationContext())) {
+            init();
+            ActionBar();
+        } else {
+            Toast.makeText((getActivity().getApplicationContext()), "Vui lòng kiểm tra kết nối Internet", Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 

@@ -20,6 +20,7 @@ import com.example.appbanhang.model.ProductOrder;
 import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.model.item_order;
 import com.example.appbanhang.service.API;
+import com.example.appbanhang.service.OnItemClickListenerOrder;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 import java.util.ArrayList;
@@ -34,15 +35,18 @@ public class ListOrderAdapter extends  RecyclerView.Adapter<ListOrderAdapter.Lis
     private Context mcontext;
     private List<ProductOrder> productOrders;
     private OnItemClickListenerProduct itemClickListener;
+    private OnItemClickListenerOrder itemClickListener2;
+    private List<item_order> list;
 
 
 
     public ListOrderAdapter(Context mcontext) {
         this.mcontext = mcontext;
     }
-    public void setData(List<ProductOrder> productOrders1, OnItemClickListenerProduct itemClickListener){
+    public void setData(List<ProductOrder> productOrders1, OnItemClickListenerProduct itemClickListener,OnItemClickListenerOrder itemClickListener2 ){
         this.productOrders = productOrders1;
         this.itemClickListener = itemClickListener;
+        this.itemClickListener2 = itemClickListener2;
         notifyDataSetChanged();
     }
 
@@ -55,6 +59,7 @@ public class ListOrderAdapter extends  RecyclerView.Adapter<ListOrderAdapter.Lis
 
     @Override
     public void onBindViewHolder(@NonNull ListOrderHolder holder, int position) {
+        list = new ArrayList<>();
         ProductOrder productOrder = productOrders.get(position);
         if (productOrder == null) return;
         holder.idCart.setText("Đơn hàng mã: "+ productOrder.getId_don_hang());
@@ -62,17 +67,23 @@ public class ListOrderAdapter extends  RecyclerView.Adapter<ListOrderAdapter.Lis
         if(productOrder.getTrang_thai_don_hang().equals("Chờ xác nhận")){
             holder.btmualai.setText("Hủy đơn hàng");
         }
-        else if(productOrder.getTrang_thai_don_hang().equals("Đã giao hàng")){
-            holder.btmualai.setText("Mua lại");
-        }
+//        else if(productOrder.getTrang_thai_don_hang().equals("Đã hủy hàng")){
+//            holder.btmualai.setText("Mua lại");
+//        }
         else {
             holder.btmualai.setVisibility(View.GONE);
         }
+        holder.btmualai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener2.onItemClickProductOrder(productOrder,list);
+            }
+        });
 
         API.api.getItemOrder(productOrder.getId_don_hang()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<item_order>>() {
-                    private List<item_order> list;
+
 
                     @Override
                     public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {

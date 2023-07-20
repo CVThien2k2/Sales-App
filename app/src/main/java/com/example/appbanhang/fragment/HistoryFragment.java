@@ -2,9 +2,11 @@ package com.example.appbanhang.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,21 +16,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appbanhang.Adapter.ListOrderAdapter;
 import com.example.appbanhang.Adapter.item_order_Adapter;
 import com.example.appbanhang.R;
+import com.example.appbanhang.activity.MainActivity;
+import com.example.appbanhang.activity.PaymentActivity;
 import com.example.appbanhang.activity.ProductdetailsActivity;
+import com.example.appbanhang.model.Parameter;
 import com.example.appbanhang.model.Product;
 import com.example.appbanhang.model.ProductOrder;
+import com.example.appbanhang.model.ResponseData;
+import com.example.appbanhang.model.item_cart;
 import com.example.appbanhang.model.item_order;
 import com.example.appbanhang.service.API;
 import com.example.appbanhang.service.CheckLogin;
+import com.example.appbanhang.service.OnItemClickListenerOrder;
 import com.example.appbanhang.service.OnItemClickListenerProduct;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -41,6 +51,7 @@ public class HistoryFragment extends Fragment {
     private TextView tvhistory;
 
     View view;
+    String data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +61,7 @@ public class HistoryFragment extends Fragment {
         init();
         Bundle args = getArguments();
         if (args != null) {
-            String data = args.getString("data");
+            data = args.getString("data");
             if (data != null) {
                 getOrder(data);
             }
@@ -103,6 +114,36 @@ public class HistoryFragment extends Fragment {
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
+                            }, new OnItemClickListenerOrder() {
+                                @Override
+                                public void onItemClickProductOrder(ProductOrder product, List<item_order> list) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Xác nhận hủy đơn hàng");
+                                    builder.setMessage("Bạn có muốn hủy đơn?");
+
+                                    // Thiết lập nút xác nhận
+                                    builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        deleteItem(product.getId_don_hang(),list);
+                                        getOrder(data);
+                                        }
+                                    });
+
+                                    // Thiết lập nút hủy
+                                    builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Đóng hộp thoại và không thực hiện xóa sản phẩm
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    // Hiển thị hộp thoại
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
                             });
                             recyclerView.setAdapter(listOrderAdapter);
                         } else {
@@ -111,5 +152,63 @@ public class HistoryFragment extends Fragment {
                     }
                     }
                 });
+    }
+    public void deleteItem(int id,List<item_order> list) {
+        for (item_order item : list) {
+            Product product = item.getProduct();
+            Parameter parameter = item.getParameter();
+            API.api.setquantity(parameter.getId_thong_so(),parameter.getCon_lai()+item.getSo_luong_san_pham())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseData>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            // Xử lý khi đăng ký
+                        }
+
+                        @Override
+                        public void onNext(@NonNull ResponseData responseData1) {
+                            // Xử lý khi nhận được dữ liệu phản hồi
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            // Xử lý khi xảy ra lỗi
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // Xử lý khi hoàn thành
+                        }
+                    });
+        }
+        API.api.setChangeOrder(id,"Đã hủy hàng")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseData>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        // Xử lý khi đăng ký
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResponseData responseData1) {
+                        // Xử lý khi nhận được dữ liệu phản hồi
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        // Xử lý khi xảy ra lỗi
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        // Xử lý khi hoàn thành
+                        getOrder(data);
+                        listOrderAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
     }
 }
