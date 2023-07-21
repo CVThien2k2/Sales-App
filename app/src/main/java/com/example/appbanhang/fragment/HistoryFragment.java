@@ -130,6 +130,9 @@ public class HistoryFragment extends Fragment {
 
                                         deleteItem(product.getId_don_hang(),list);
                                         listOrderAdapter.notifyDataSetChanged();
+                                            Intent intent = new Intent(getContext(), MainActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
                                         }
                                     });
 
@@ -206,8 +209,7 @@ public class HistoryFragment extends Fragment {
                     @Override
                     public void onComplete() {
                         // Xử lý khi hoàn thành
-                        getOrder(data);
-                        listOrderAdapter.notifyDataSetChanged();
+
                     }
                 });
 
