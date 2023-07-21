@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -127,7 +129,7 @@ public class HistoryFragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int which) {
 
                                         deleteItem(product.getId_don_hang(),list);
-                                        getOrder(data);
+                                        listOrderAdapter.notifyDataSetChanged();
                                         }
                                     });
 

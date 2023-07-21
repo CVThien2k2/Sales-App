@@ -189,8 +189,8 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String inputValue = input.getText().toString();
-                if(inputValue.equals(user.getMat_khau())){
-//                    Toast.makeText(Profile.this, "lưu thành công", Toast.LENGTH_SHORT).show();
+                if(inputValue.equals("123456")){
+                    Toast.makeText(Profile.this, "lưu thành công", Toast.LENGTH_SHORT).show();
                     setUser(user.getId_nguoi_dung(),name.getText().toString().trim(),email.getText().toString().trim(),phone.getText().toString().trim(),address.getText().toString());
                 }
                 else {
